@@ -89,20 +89,11 @@ const MAP = "M9 18l-6-3V3l6 3 6-3 6 3v15l-6-3-6 3z M9 6v12 M15 3v12"
 const SOCIAL_ICONS = [
   {
     label: "Instagram",
-    href: "https://instagram.com",
+    href: "https://www.instagram.com/leohospitalityandventuresllp?stkn=dWhnNmI4OHVuYzdi",
     path: "M7 2h10a5 5 0 0 1 5 5v10a5 5 0 0 1-5 5H7a5 5 0 0 1-5-5V7a5 5 0 0 1 5-5z M16 11.4A4 4 0 1 1 12.6 8 4 4 0 0 1 16 11.4z M17.5 6.5h.01",
   },
-  {
-    label: "LinkedIn",
-    href: "https://linkedin.com",
-    path: "M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-4 0v7h-4V8h4v1.5 M2 9h4v12H2z M4 6a2 2 0 1 0 0-4 2 2 0 0 0 0 4z",
-  },
-  {
-    label: "Facebook",
-    href: "https://facebook.com",
-    path: "M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z",
-  },
-]
+
+];
 
 const ENQUIRY_TYPES = [
   {
@@ -390,10 +381,11 @@ export function Contact({ go }) {
                         Registered Office
                       </h3>
                       <p className="mt-1 text-base font-medium text-ink">
-                        Bandra Kurla Complex (BKC)
+                        FN 2402 F 24 Alpine BN 01, Regency Anantham City,
+                        Dombivali I. A
                       </p>
                       <p className="text-sm text-ink-soft">
-                        Mumbai, Maharashtra 400051, India
+                        Kalyan, Thane-421203, India
                       </p>
                     </div>
                   </div>
@@ -408,10 +400,10 @@ export function Contact({ go }) {
                         Executive Desk
                       </h3>
                       <a
-                        href="tel:+912269001200"
+                        href="tel:+918087759997"
                         className="mt-1 block text-lg font-medium text-ink transition-colors hover:text-forest"
                       >
-                        +91 22 6900 1200
+                        +91 80877 59997
                       </a>
                       <p className="text-xs text-ink-soft">
                         Mon&ndash;Sat, 10:00 &ndash; 19:00 IST
@@ -434,22 +426,8 @@ export function Contact({ go }) {
                             href="mailto:partner@leohospitality.in"
                             className="text-base font-medium text-ink transition-colors hover:text-forest"
                           >
-                            partner@leohospitality.in
+                            support@leohospitality.in
                           </a>
-                          <p className="text-xs uppercase tracking-wider text-bronze">
-                            Franchise &amp; Capital Partnerships
-                          </p>
-                        </div>
-                        <div>
-                          <a
-                            href="mailto:connect@leohospitality.in"
-                            className="text-base font-medium text-ink transition-colors hover:text-forest"
-                          >
-                            connect@leohospitality.in
-                          </a>
-                          <p className="text-xs uppercase tracking-wider text-ink-soft">
-                            General, Press &amp; Institutional
-                          </p>
                         </div>
                       </div>
                     </div>
@@ -534,7 +512,7 @@ export function Contact({ go }) {
                     className="mt-4 text-xl text-paper"
                     style={{ fontFamily: "var(--font-display)" }}
                   >
-                    Bandra Kurla Complex, Mumbai
+                    Regency Anantham City, Dombivali I. A.
                   </h3>
                   <p className="mt-2 text-sm leading-relaxed text-paper/75">
                     Situated at the financial core of Mumbai. Private parking
@@ -558,8 +536,8 @@ export function Contact({ go }) {
                           enquiryType: "Venue Operations",
                           message:
                             "I would like to schedule an in-person walkthrough of your operating spaces.",
-                        }))
-                        window.scrollTo({ top: 400, behavior: "smooth" })
+                        }));
+                        window.scrollTo({ top: 400, behavior: "smooth" });
                       }}
                       className="inline-flex items-center gap-2 rounded-full border border-white/25 bg-white/5 px-4 py-2.5 text-xs font-semibold uppercase tracking-wider text-paper/85 backdrop-blur-md transition-all hover:border-white/50 hover:bg-white/10 hover:text-paper"
                     >
@@ -673,7 +651,7 @@ export function Contact({ go }) {
                   </label>
                   <div className="mt-3.5 grid grid-cols-1 gap-2.5 sm:grid-cols-2 md:grid-cols-3">
                     {ENQUIRY_TYPES.map((cat) => {
-                      const isSelected = form.enquiryType === cat.id
+                      const isSelected = form.enquiryType === cat.id;
                       return (
                         <button
                           key={cat.id}
@@ -701,7 +679,7 @@ export function Contact({ go }) {
                             {cat.desc}
                           </span>
                         </button>
-                      )
+                      );
                     })}
                   </div>
                 </div>
@@ -1026,7 +1004,7 @@ export function Contact({ go }) {
 
       <CTA go={go} />
     </>
-  )
+  );
 }
 
 export default Contact
