@@ -22,11 +22,13 @@ import chefSink from "../assets/chefSink.jpg"
 import eventDessert from "../assets/eventDessert.jpg"
 import cupcakes from "../assets/cupcakes.jpg"
 import Home from "../assets/HA.png";
+import ryviveRoots from "../assets/ryvive.svg"
 
 gsap.registerPlugin(ScrollTrigger)
 
 /* ---------- Imagery (bundled locally so images load same-origin) ---------- */
 export const IMG = {
+  ryviveRoots,
   heroInterior,
   bodhiTree,
   diningRoom,

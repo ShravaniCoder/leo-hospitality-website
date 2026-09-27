@@ -57,7 +57,7 @@ export const VENTURES_DATA = [
       "Turnkey franchise & partnership model",
       "Unit economics designed for scale",
     ],
-    images: [IMG.deliveryBag, IMG.containers],
+    images: [IMG.ryviveRoots, IMG.containers],
     floatingAsset: [
       {
         type: "svg",
@@ -144,76 +144,146 @@ export const SERVICES_DATA = [
   {
     n: "01",
     t: "Restaurant & Café Management",
-    d: "Full operational ownership of your venue — from the pass to the P&L.",
+    d: "End-to-end management that brings operational discipline, service excellence, and commercial performance together.",
     caps: [
       "Daily operations & service standards",
-      "Staffing, recruitment & training",
+      "Staffing, recruitment & team training",
       "Cost control & P&L management",
       "Vendor & inventory management",
-      "Guest experience & feedback loops",
+      "Guest experience & service quality",
     ],
-    // clipboard/checklist icon
     svgIcon:
       "M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2M9 5a2 2 0 0 0 2 2h2a2 2 0 0 0 2-2M9 5a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2m-6 9h4m-4 4h6",
   },
+
   {
     n: "02",
-    t: "Concept & Menu Development",
-    d: "Positioning and culinary identity that give a venue a reason to exist.",
+    t: "Society Clubhouse Cafeteria Management",
+    d: "Thoughtfully managed dining environments designed around convenience, consistency, and community.",
+    caps: [
+      "Daily cafeteria operations",
+      "Menu planning & meal programmes",
+      "Staffing & service management",
+      "Hygiene & quality standards",
+      "Resident experience & feedback",
+    ],
+    svgIcon: "M4 5h16v14H4V5zm3 3h10M7 12h4m2 0h4M7 16h10",
+  },
+
+  {
+    n: "03",
+    t: "Food & Beverage Operations",
+    d: "Structured F&B operations that connect culinary quality, service delivery, and commercial performance.",
     caps: [
       "Concept & positioning strategy",
       "Menu engineering & costing",
-      "Recipe standardisation & training",
+      "Recipe standardisation",
       "Beverage & coffee programmes",
-      "Food styling & menu direction",
+      "Food quality & service direction",
     ],
-    // knife/fork/culinary signature icon
     svgIcon: "M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6",
   },
-  {
-    n: "03",
-    t: "Pre-Opening & Setup",
-    d: "Everything between a bare shell and a confident opening night.",
-    caps: [
-      "Site assessment & kitchen planning",
-      "Equipment & supplier sourcing",
-      "Licensing & compliance support",
-      "Recruitment & pre-opening training",
-      "Soft-launch & launch choreography",
-    ],
-    // building/compass icon
-    svgIcon: "M12 22V12m0 0 4-4m-4 4-4-4M6 12a6 6 0 1 1 12 0 6 6 0 0 1-12 0z",
-  },
+
   {
     n: "04",
-    t: "Cloud Kitchen Operations",
-    d: "Delivery-first kitchens built for consistency, speed and scale.",
+    t: "Staff Training",
+    d: "Building confident hospitality teams through structured training, service standards, and hands-on development.",
     caps: [
-      "Delivery-optimised kitchen layout",
+      "Service etiquette & guest handling",
+      "Front-of-house training",
+      "Kitchen & operational training",
+      "SOP implementation & compliance",
+      "Performance development & coaching",
+    ],
+    svgIcon: "M12 22V12m0 0 4-4m-4 4-4-4M6 12a6 6 0 1 1 12 0 6 6 0 0 1-12 0z",
+  },
+
+  {
+    n: "05",
+    t: "Cloud Kitchen Operations",
+    d: "Delivery-first kitchen systems built around consistency, efficiency, quality, and scalable growth.",
+    caps: [
+      "Delivery-optimised kitchen planning",
       "Aggregator onboarding & strategy",
       "Packaging & food-safety systems",
       "Multi-brand kitchen operations",
       "Performance & rating management",
     ],
-    // kitchen stove / network icon
     svgIcon: "M4 4h16v16H4V4zm4 4h8v8H8V8z",
   },
+
   {
-    n: "05",
-    t: "Business Partnerships",
-    d: "Franchise, JV and management models that align everyone's interests.",
+    n: "06",
+    t: "Menu Planning & Development",
+    d: "Thoughtfully engineered menus that balance culinary identity, customer appeal, operational efficiency, and profitability.",
     caps: [
-      "Franchise structuring & playbooks",
-      "Management & revenue-share models",
-      "Joint ventures & investments",
-      "Multi-outlet expansion strategy",
-      "Ongoing partner support",
+      "Concept & menu positioning",
+      "Menu engineering & costing",
+      "Recipe development & standardisation",
+      "Beverage & coffee programmes",
+      "Menu presentation & food styling",
     ],
-    // handshake icon
-    svgIcon:
-      "M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2m16-10a4 4 0 1 0 0-8 4 4 0 0 0 0 8zm-8 0a4 4 0 1 0 0-8 4 4 0 0 0 0 8z",
+    svgIcon: "M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6",
   },
-]
+
+  {
+    n: "07",
+    t: "Quality Control",
+    d: "Consistent standards across food, service, hygiene, and operations to protect quality at every touchpoint.",
+    caps: [
+      "Food quality & consistency checks",
+      "Hygiene & safety standards",
+      "SOP & process audits",
+      "Service quality monitoring",
+      "Corrective action & improvement",
+    ],
+    svgIcon:
+      "M12 3l8 4v5c0 5-3.5 8.5-8 10-4.5-1.5-8-5-8-10V7l8-4zm-3 9 2 2 4-4",
+  },
+
+  {
+    n: "08",
+    t: "Cost Control",
+    d: "Disciplined cost management designed to improve margins while protecting quality and operational standards.",
+    caps: [
+      "Food & beverage cost monitoring",
+      "Purchase & procurement controls",
+      "Inventory optimisation",
+      "Waste reduction systems",
+      "P&L analysis & performance tracking",
+    ],
+    svgIcon: "M12 1v22M17 5H9a3 3 0 0 0 0 6h6a3 3 0 0 1 0 6H6",
+  },
+
+  {
+    n: "09",
+    t: "Customer Experience Management",
+    d: "Creating thoughtful guest journeys through attentive service, consistent standards, and meaningful feedback.",
+    caps: [
+      "Guest journey mapping",
+      "Service standards & etiquette",
+      "Feedback & review management",
+      "Customer satisfaction tracking",
+      "Experience improvement programmes",
+    ],
+    svgIcon:
+      "M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2m8-10a4 4 0 1 0 0-8 4 4 0 0 0 0 8z",
+  },
+
+  {
+    n: "10",
+    t: "Vendor & Inventory Management",
+    d: "Streamlined procurement and inventory systems that maintain availability, quality, and cost efficiency.",
+    caps: [
+      "Vendor sourcing & evaluation",
+      "Purchase planning & procurement",
+      "Inventory tracking & control",
+      "Stock optimisation & replenishment",
+      "Supplier performance management",
+    ],
+    svgIcon: "M3 7h18M5 7l1-4h12l1 4M5 7v12h14V7M9 11h6",
+  },
+];
 
 export const GALLERY_PHOTOS_DATA = [
   { src: IMG.Home, cat: "Restaurants & Cafés", span: true },

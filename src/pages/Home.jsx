@@ -1035,14 +1035,11 @@ export function Home({ go }) {
 
           {/* 3x2 Grid: 5 Core Disciplines + 1 Bespoke Advisory Card */}
           <div className="grid gap-7 sm:grid-cols-2 lg:grid-cols-3">
-            {SERVICES_DATA.map((service, idx) => (
+            {SERVICES_DATA.slice(0, 6).map((service, idx) => (
               <Reveal key={service.n} delay={idx * 60}>
                 <ServiceCard service={service} index={idx} go={go} />
               </Reveal>
             ))}
-            <Reveal delay={SERVICES_DATA.length * 60}>
-              <AdvisoryCard go={go} />
-            </Reveal>
           </div>
 
           {/* Operational Standard Banner */}
