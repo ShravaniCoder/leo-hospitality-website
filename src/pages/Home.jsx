@@ -541,16 +541,21 @@ const SERVICE_IMAGES = [
 
   { img: IMG.society, alt: "Plated culinary menu presentation" },
 
-  { img: IMG.woodTable, alt: "Interior setup ready for opening night" },
+  { img: IMG.foodB, alt: "Interior setup ready for opening night" },
 
-  { img: IMG.containers, alt: "Cloud kitchen delivery dispatch operations" },
+  { img: IMG.staff, alt: "Cloud kitchen delivery dispatch operations" },
 
   {
     img: IMG.chefBoard,
 
     alt: "Culinary standards and kitchen preparation board",
   },
-]
+  {
+    img: IMG.menu,
+
+    alt: "Culinary standards and kitchen preparation board",
+  },
+];
 
 /* ---------- LUXURY EDITORIAL SERVICE CARD ---------- */
 

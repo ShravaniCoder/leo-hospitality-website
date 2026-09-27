@@ -24,11 +24,26 @@ import cupcakes from "../assets/cupcakes.jpg"
 import Home from "../assets/HA.png";
 import ryviveRoots from "../assets/ryvive.svg"
 import society from "../assets/society.png"
+import foodB from "../assets/food.png"
+import staff from "../assets/staff.png"
+import menu from "../assets/menu.png"
+import Quality from "../assets/Quality.png";
+import cost from "../assets/cost.png"
+import customer from "../assets/customer.png"
+import vendor from "../assets/vendor.png"
+
 
 gsap.registerPlugin(ScrollTrigger)
 
 /* ---------- Imagery (bundled locally so images load same-origin) ---------- */
 export const IMG = {
+  vendor,
+  customer,
+  cost,
+  Quality,
+  menu,
+  staff,
+  foodB,
   society,
   ryviveRoots,
   heroInterior,
@@ -51,8 +66,8 @@ export const IMG = {
   chefSink,
   eventDessert,
   cupcakes,
-  Home
-}
+  Home,
+};
 
 /* ---------- Reveal on scroll ---------- */
 export function Reveal({

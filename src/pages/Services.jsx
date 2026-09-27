@@ -7,11 +7,16 @@ import { SERVICES_DATA } from "../lib/data"
 // Page-appropriate imagery, index-matched to SERVICES_DATA
 const SERVICE_IMAGES = [
   IMG.diningRoom,
-  IMG.souffle,
-  IMG.woodTable,
-  IMG.deliveryBag,
-  IMG.bodhiTree,
-]
+  IMG.society,
+  IMG.foodB,
+  IMG.staff,
+  IMG.chefBoard,
+  IMG.menu,
+  IMG.Quality,
+  IMG.cost,
+  IMG.customer,
+  IMG.vendor
+];
 
 export function Services({ go }) {
   const [open, setOpen] = useState(0)
