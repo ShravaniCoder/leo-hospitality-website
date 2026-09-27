@@ -3,7 +3,7 @@ import { gsap } from "gsap"
 import { ScrollTrigger } from "gsap/ScrollTrigger"
 import heroInterior from "../assets/heroInterior.jpg"
 import bodhiTree from "../assets/bodhiTree.png"
-import diningRoom from "../assets/diningRoom.jpg"
+import diningRoom from "../assets/diningRoom.png"
 import lamps from "../assets/lamps.jpg"
 import woodTable from "../assets/woodTable.jpg"
 import breakfast from "../assets/breakfast.jpg"
@@ -23,11 +23,13 @@ import eventDessert from "../assets/eventDessert.jpg"
 import cupcakes from "../assets/cupcakes.jpg"
 import Home from "../assets/HA.png";
 import ryviveRoots from "../assets/ryvive.svg"
+import society from "../assets/society.png"
 
 gsap.registerPlugin(ScrollTrigger)
 
 /* ---------- Imagery (bundled locally so images load same-origin) ---------- */
 export const IMG = {
+  society,
   ryviveRoots,
   heroInterior,
   bodhiTree,

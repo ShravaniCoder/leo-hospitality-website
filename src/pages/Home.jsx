@@ -539,7 +539,7 @@ function TabbedExperience({ go }) {
 const SERVICE_IMAGES = [
   { img: IMG.diningRoom, alt: "Restaurant and café dining space" },
 
-  { img: IMG.dessertPlatter, alt: "Plated culinary menu presentation" },
+  { img: IMG.society, alt: "Plated culinary menu presentation" },
 
   { img: IMG.woodTable, alt: "Interior setup ready for opening night" },
 
