@@ -114,13 +114,13 @@ export function Footer({ go }) {
 
                 <p className="leading-relaxed">
                   FN 2402, F 24, Alpine BN 01,
-                  <br />
+                 
                   Regency Anantham City,
-                  <br />
+                 
                   Dombivali I. A., Kalyan,
-                  <br />
+                 
                   Thane - 421203,
-                  <br />
+                 
                   Maharashtra, India.
                 </p>
               </div>
