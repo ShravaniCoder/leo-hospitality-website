@@ -9,7 +9,6 @@ import {
   Input,
   Select,
   Textarea,
-  FileField,
 } from "../lib/ui"
 import { PageHero, Section } from "../components/PageHero"
 import { CTA } from "./Home"
@@ -34,8 +33,6 @@ const REASONS = [
 export function Careers({ go }) {
   const [submitting, setSubmitting] = useState(false)
   const [sent, setSent] = useState(false)
-  const [honeypot, setHoneypot] = useState("")
-
   const [form, setForm] = useState({
     name: "",
     phone: "",
@@ -45,8 +42,6 @@ export function Careers({ go }) {
   })
 
   const [errors, setErrors] = useState({})
-  const [cvFile, setCvFile] = useState(null)
-  const [cvError, setCvError] = useState(null)
 
   const handleChange = (e) => {
     const { name, value } = e.target
@@ -91,11 +86,6 @@ export function Careers({ go }) {
   const handleSubmit = async (e) => {
     e.preventDefault()
 
-    if (honeypot !== "") {
-      console.warn("Spam submission blocked.")
-      return
-    }
-
     const newErrors = {}
     const requiredFields = ["name", "phone", "email", "interest"]
 
@@ -116,12 +106,6 @@ export function Careers({ go }) {
       newErrors.phone = "Please enter a valid phone number (min 10 digits)."
     }
 
-    if (!cvFile) {
-      newErrors.cv = "Please upload your CV / resume."
-    } else if (cvError) {
-      newErrors.cv = cvError
-    }
-
     if (Object.keys(newErrors).length > 0) {
       setErrors(newErrors)
       return
@@ -138,26 +122,23 @@ export function Careers({ go }) {
     setSubmitting(true)
 
     try {
-      const formData = new FormData()
-
-      formData.append("name", form.name)
-      formData.append("phone", form.phone)
-      formData.append("email", form.email)
-      formData.append("interest", form.interest)
-      formData.append("message", form.message)
-      formData.append("form_type", "Career Application")
-      formData.append("source", "Careers Page")
-
-      if (cvFile) {
-        formData.append("cv", cvFile, cvFile.name)
+      const payload = {
+        name: form.name,
+        phone: form.phone,
+        email: form.email,
+        interest: form.interest,
+        message: form.message,
+        form_type: "Career Application",
+        source: "Careers Page",
       }
 
       const response = await fetch(FORMSPREE_ENDPOINT, {
         method: "POST",
         headers: {
+          "Content-Type": "application/json",
           Accept: "application/json",
         },
-        body: formData,
+        body: JSON.stringify(payload),
       })
 
       let data = {}
@@ -222,7 +203,7 @@ export function Careers({ go }) {
       <section className="bg-paper py-16 lg:py-24 border-t border-line/40">
         <div className="mx-auto grid max-w-[1440px] gap-12 px-6 lg:grid-cols-[1fr_1.1fr] lg:gap-20 lg:px-12">
           <Reveal>
-            <Kicker>Submit Your CV</Kicker>
+            <Kicker>Join Our Team</Kicker>
             <h2
               className="mt-5 text-4xl leading-tight tracking-[-0.02em] sm:text-5xl"
               style={{ fontFamily: "var(--font-display)", fontWeight: 400 }}
@@ -230,7 +211,7 @@ export function Careers({ go }) {
               Send us your story.
             </h2>
             <p className="mt-6 max-w-md leading-relaxed text-ink-soft">
-              No open role listed? Send your CV anyway — we keep a warm list and
+              No open role listed? Tell us about yourself — we keep a warm list and
               reach out when the right seat opens.
             </p>
           </Reveal>
@@ -263,14 +244,17 @@ export function Careers({ go }) {
                 className="grid gap-5 rounded-none border border-line bg-cream/60 p-8 lg:p-10"
               >
                 {/* Honeypot */}
-                <div className="sr-only pointer-events-none" aria-hidden="true">
+                <div
+                  className="absolute -left-[9999px] h-0 w-0 overflow-hidden"
+                  aria-hidden="true"
+                >
+                  <label htmlFor="career-website">Leave this field empty</label>
                   <input
+                    id="career-website"
                     type="text"
-                    name="website_url"
-                    value={honeypot}
-                    onChange={(e) => setHoneypot(e.target.value)}
+                    name="_gotcha"
                     tabIndex={-1}
-                    autoComplete="off"
+                    autoComplete="new-password"
                   />
                 </div>
 
@@ -357,30 +341,6 @@ export function Careers({ go }) {
                   </Field>
                 </fieldset>
 
-                <div className="mt-2">
-                  <FileField
-                    name="cv"
-                    label="Upload CV"
-                    required
-                    hint="PDF preferred, up to 5 MB."
-                    onChangeFile={(file, err) => {
-                      setCvFile(file)
-                      setCvError(err || null)
-                      setErrors((prev) => {
-                        const next = { ...prev }
-                        if (err) next.cv = err
-                        else delete next.cv
-                        return next
-                      })
-                    }}
-                  />
-                  {errors.cv && (
-                    <p className="field-error mt-1 text-xs text-red-600 font-medium">
-                      {errors.cv}
-                    </p>
-                  )}
-                </div>
-
                 <div>
                   <Field label="A note (optional)">
                     <Textarea
@@ -419,7 +379,7 @@ export function Careers({ go }) {
                             d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
                           />
                         </svg>
-                        Uploading...
+                        Submitting...
                       </span>
                     ) : (
                       <>
@@ -438,4 +398,4 @@ export function Careers({ go }) {
     </>
   )
 }
-export default Careers;
+export default Careers
