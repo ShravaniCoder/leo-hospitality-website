@@ -27,11 +27,11 @@ export function Services({ go }) {
         kicker="Services"
         title={
           <>
-            What we take{" "}
-            <span className="italic text-forest">off your plate.</span>
+           From Kitchen to Guest Table - {" "}
+            <span className="italic text-forest">We Optimize It All</span>
           </>
         }
-        lead="Five capabilities that can be engaged individually or as an end-to-end management relationship."
+        lead="At Leo Hospitality, we offer a full spectrum of consultancy services designed to help cafes, restaurants, society clubhouses, and F&B businesses operate more efficiently, deliver exceptional guest experiences, and grow profitably. Whether you need end-to-end operational management or support in a specific area, our team brings hands-on, industry-tested expertise to every engagement."
         image={IMG.chefBoard}
       />
 

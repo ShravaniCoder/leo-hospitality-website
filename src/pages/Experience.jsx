@@ -171,11 +171,11 @@ export function Experience({ go }) {
         kicker="Experience"
         title={
           <>
-            Rooms we&rsquo;ve{" "}
-            <span className="italic text-forest">helped run.</span>
+           Real Challenges. Real Solutions.
+            <span className="italic px-2 text-forest">Real Results.</span>
           </>
         }
-        lead="A selection of past projects our team has operated or supported. Full case descriptions are being prepared and shared on request."
+        lead="At Leo Hospitality, our expertise isn't theoretical, it's built on years of hands-on experience solving real operational challenges across the hospitality and food & beverage industry. From boutique cafes to multi-outlet cloud kitchens, we've worked closely with businesses to fix inefficiencies, improve service standards, and drive sustainable growth."
         image={IMG.woodTable}
       />
 
