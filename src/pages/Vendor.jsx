@@ -13,6 +13,8 @@ import {
 import { PageHero, Section } from "../components/PageHero"
 import { SuccessModal } from "../components/SuccessModal"
 
+const FORMSPREE_ENDPOINT = "https://formspree.io/f/mnpnoknj"
+
 /* -------------------------------------------------------------------------- */
 /*                                CONSTANTS                                   */
 /* -------------------------------------------------------------------------- */
@@ -362,7 +364,7 @@ export function Vendor({ go }) {
   /*                              SUBMIT                                      */
   /* ------------------------------------------------------------------------ */
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault()
 
     if (honeypot !== "") {
@@ -372,17 +374,73 @@ export function Vendor({ go }) {
 
     if (!validateStep(3)) return
 
+    if (
+      !FORMSPREE_ENDPOINT ||
+      FORMSPREE_ENDPOINT === "YOUR_FORMSPREE_ENDPOINT"
+    ) {
+      alert(
+        "Please add your Formspree endpoint in Vendor.jsx before submitting.",
+      )
+      return
+    }
+
     setIsSubmitting(true)
 
-    /*
-      Replace this simulated submission with your API/Formspree endpoint
-      when your backend is ready.
-    */
+    const randomToken = `LHV-VND-${new Date().getFullYear()}-${Math.floor(
+      1000 + Math.random() * 9000,
+    )}`
 
-    setTimeout(() => {
-      const randomToken = `LHV-VND-${new Date().getFullYear()}-${Math.floor(
-        1000 + Math.random() * 9000,
-      )}`
+    try {
+      const response = await fetch(FORMSPREE_ENDPOINT, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+        body: JSON.stringify({
+          "Registration ID": randomToken,
+          "Form Type": "Vendor Registration",
+
+          "Business / Vendor Name": form.partyName,
+          "Business Type": form.firmType,
+          "Vendor Category": form.category,
+
+          "Contact Person": form.contactPerson,
+          "Designation": form.designation,
+
+          "Phone": form.phone,
+          "Alternate Phone": form.alternatePhone,
+          "Email": form.email,
+          "Website": form.website,
+
+          "Address Line 1": form.address1,
+          "Address Line 2": form.address2,
+          "City": form.city,
+          "State": form.state,
+          "PIN Code": form.pinCode,
+
+          "Years in Business": form.yearsInBusiness,
+          "Supply Capacity": form.supplyCapacity,
+          "Products / Services": form.productDescription,
+          "Delivery / Service Areas": form.deliveryAreas,
+          "Additional Information": form.additionalInformation,
+        }),
+      })
+
+      let data = {}
+
+      try {
+        data = await response.json()
+      } catch {
+        data = {}
+      }
+
+      if (!response.ok) {
+        throw new Error(
+          data?.errors?.[0]?.message ||
+            "Unable to submit vendor registration.",
+        )
+      }
 
       setSubmissionId(randomToken)
       setIsSubmitting(false)
@@ -393,7 +451,16 @@ export function Vendor({ go }) {
         top: 300,
         behavior: "smooth",
       })
-    }, 1200)
+    } catch (error) {
+      console.error("Vendor registration submission error:", error)
+
+      setIsSubmitting(false)
+
+      alert(
+        error?.message ||
+          "Something went wrong while submitting the form. Please try again.",
+      )
+    }
   }
 
   /* ------------------------------------------------------------------------ */

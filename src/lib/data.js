@@ -99,7 +99,7 @@ export const PROJECTS_DATA = [
     loc: "Powai & Worli, Mumbai",
     type: "Restaurant & Bar",
     period: "May 2019 – December 2025",
-    img: IMG.lamps,
+    img: IMG.drinks,
     description:
       "Served as Hospitality Management Partner across the Powai and Worli locations, overseeing restaurant operations, workforce management, guest experience, SOP implementation, quality control, and day-to-day operational excellence.",
   },

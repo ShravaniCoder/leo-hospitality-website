@@ -4,7 +4,7 @@ import { ScrollTrigger } from "gsap/ScrollTrigger"
 import heroInterior from "../assets/heroInterior.jpg"
 import bodhiTree from "../assets/bodhiTree.png"
 import diningRoom from "../assets/diningRoom.png"
-import lamps from "../assets/drinks.png"
+import lamps from "../assets/lamps.jpg"
 import woodTable from "../assets/woodTable.png"
 import breakfast from "../assets/breakfast.jpg"
 import souffle from "../assets/souffle.jpg"
@@ -31,12 +31,14 @@ import Quality from "../assets/Quality.png";
 import cost from "../assets/cost.png"
 import customer from "../assets/customer.png"
 import vendor from "../assets/vendor.png"
+import drinks from "../assets/drinks.png"
 
 
 gsap.registerPlugin(ScrollTrigger)
 
 /* ---------- Imagery (bundled locally so images load same-origin) ---------- */
 export const IMG = {
+  drinks,
   vendor,
   customer,
   cost,
