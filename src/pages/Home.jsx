@@ -110,7 +110,7 @@ function Hero({ go }) {
             }}
           >
             Leo Hospitality delivers professional management and operational
-            expertise across restaurants, cafés, and clubhouse dining, helping
+            expertise across restaurants, cafes, and clubhouse cafeteria & dining, helping
             businesses achieve efficient operations, consistent quality, and
             memorable guest experiences.
           </p>

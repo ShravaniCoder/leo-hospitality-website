@@ -189,9 +189,9 @@ export function About({ go }) {
                 className="text-4xl leading-[1.08] tracking-[-0.02em] sm:text-6xl lg:text-[68px] text-ink"
                 style={{ fontFamily: "var(--font-display)" }}
               >
-                A management partner, <br className="hidden sm:inline" />
+               More than management, <br className="hidden sm:inline" />
                 <span className="italic font-normal text-bronze">
-                  not a landlord.
+                a commitment to hospitality.
                 </span>
               </h1>
             </Reveal>
@@ -201,19 +201,19 @@ export function About({ go }) {
               className="lg:col-span-5 flex flex-col justify-end"
             >
               <p className="text-base sm:text-lg leading-relaxed text-ink-soft">
-                Leo Hospitality &amp; Ventures LLP exists to make hospitality
-                concepts feel effortless to their guests and dependable to their
-                owners. We bridge culinary distinction with institutional
-                financial governance.
+              
+
+
+                At Leo Hospitality &amp; Ventures LLP, we believe true hospitality is defined by genuine care, thoughtful detail, and exceptional experiences. Founded with a vision to elevate hospitality standards, we bring warmth, precision, and reliability to every guest experience.
               </p>
               {/* Quick credential chips */}
               <div className="mt-6 flex flex-wrap gap-2">
                 {[
-                  "Mumbai Operational Core",
+                  "The hospitality industry /",
 
-                  "Turnkey Development",
+                  "Hotel management ",
 
-                  "Joint Venture Structures",
+                  "Guest services",
                 ].map((chip) => (
                   <span
                     key={chip}
