@@ -189,9 +189,9 @@ export function About({ go }) {
                 className="text-4xl leading-[1.08] tracking-[-0.02em] sm:text-6xl lg:text-[68px] text-ink"
                 style={{ fontFamily: "var(--font-display)" }}
               >
-               More than management, <br className="hidden sm:inline" />
+              Passion for Hospitality, <br className="hidden sm:inline" />
                 <span className="italic font-normal text-bronze">
-                a commitment to hospitality.
+                Commitment to Excellence.
                 </span>
               </h1>
             </Reveal>
@@ -209,7 +209,7 @@ export function About({ go }) {
               {/* Quick credential chips */}
               <div className="mt-6 flex flex-wrap gap-2">
                 {[
-                  "The hospitality industry /",
+                  "The hospitality industry ",
 
                   "Hotel management ",
 
