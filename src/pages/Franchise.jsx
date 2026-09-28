@@ -13,9 +13,23 @@ import {
 import { PageHero, Section } from "../components/PageHero"
 import { SuccessModal } from "../components/SuccessModal"
 
+/* =========================================================
+   FORMSPREE
+   Replace YOUR_FORM_ID with your actual Formspree form ID
+   Example:
+   https://formspree.io/f/abcdwxyz
+========================================================= */
+
+const FORMSPREE_ENDPOINT =
+  "https://formspree.io/f/mppwoeov"
+
+/* =========================================================
+   PARTNERSHIP CATEGORIES
+========================================================= */
+
 const CATEGORIES = [
   {
-    t: "Franchise a Venture",
+    t: "Franchise",
     d: "Bring Ryvive Roots or a future concept to your city with a turnkey playbook and our operational backing.",
   },
   {
@@ -32,10 +46,15 @@ const CATEGORIES = [
   },
 ]
 
+/* =========================================================
+   FRANCHISE PAGE
+========================================================= */
+
 export function Franchise({ go }) {
   const [submitting, setSubmitting] = useState(false)
   const [sent, setSent] = useState(false)
   const [honeypot, setHoneypot] = useState("")
+  const [submitError, setSubmitError] = useState("")
 
   const [form, setForm] = useState({
     name: "",
@@ -46,8 +65,17 @@ export function Franchise({ go }) {
     message: "",
   })
 
+  const [errors, setErrors] = useState({})
+
+  /* =========================================================
+     RESET FORM
+  ========================================================= */
+
   const resetForm = () => {
     setSent(false)
+    setSubmitError("")
+    setErrors({})
+
     setForm({
       name: "",
       company: "",
@@ -58,11 +86,18 @@ export function Franchise({ go }) {
     })
   }
 
-  const [errors, setErrors] = useState({})
+  /* =========================================================
+     HANDLE CHANGE
+  ========================================================= */
 
   const handleChange = (e) => {
     const { name, value } = e.target
-    setForm((prev) => ({ ...prev, [name]: value }))
+
+    setForm((prev) => ({
+      ...prev,
+      [name]: value,
+    }))
+
     if (errors[name]) {
       setErrors((prev) => {
         const next = { ...prev }
@@ -70,61 +105,122 @@ export function Franchise({ go }) {
         return next
       })
     }
+
+    setSubmitError("")
   }
+
+  /* =========================================================
+     VALIDATE FIELD
+  ========================================================= */
 
   const validateField = (name, value) => {
     let err = ""
+
     if (!value.trim()) {
       err = "This field is required."
-    } else if (name === "email" && !/\S+@\S+\.\S+/.test(value)) {
+    } else if (
+      name === "email" &&
+      !/\S+@\S+\.\S+/.test(value)
+    ) {
       err = "Please enter a valid email address."
     } else if (
       name === "phone" &&
-      !/^\+?[0-9\s-]{10,14}$/.test(value.replace(/\s+/g, ""))
+      !/^\+?[0-9\s-]{10,14}$/.test(
+        value.replace(/\s+/g, "")
+      )
     ) {
-      err = "Please enter a valid phone number (min 10 digits)."
+      err = "Please enter a valid phone number."
     }
 
     setErrors((prev) => {
-      if (err) return { ...prev, [name]: err }
+      if (err) {
+        return {
+          ...prev,
+          [name]: err,
+        }
+      }
+
       const next = { ...prev }
       delete next[name]
       return next
     })
   }
 
+  /* =========================================================
+     HANDLE BLUR
+  ========================================================= */
+
   const handleBlur = (e) => {
     const { name, value, required } = e.target
-    if (required || name === "email" || name === "phone") {
+
+    if (
+      required ||
+      name === "email" ||
+      name === "phone"
+    ) {
       validateField(name, value)
     }
   }
 
-  const handleSubmit = (e) => {
+  /* =========================================================
+     HANDLE SUBMIT
+  ========================================================= */
+
+  const handleSubmit = async (e) => {
     e.preventDefault()
+
+    setSubmitError("")
+
+    /* -----------------------------------------
+       HONEYPOT SPAM PROTECTION
+    ----------------------------------------- */
 
     if (honeypot !== "") {
       console.warn("Spam submission blocked.")
       return
     }
 
+    /* -----------------------------------------
+       VALIDATION
+    ----------------------------------------- */
+
     const newErrors = {}
-    const requiredFields = ["name", "phone", "email", "type", "message"]
+
+    const requiredFields = [
+      "name",
+      "phone",
+      "email",
+      "type",
+      "message",
+    ]
 
     requiredFields.forEach((field) => {
       if (!form[field].trim()) {
-        newErrors[field] = "This field is required."
+        newErrors[field] =
+          "This field is required."
       }
     })
 
-    if (form.email && !/\S+@\S+\.\S+/.test(form.email)) {
-      newErrors.email = "Please enter a valid email address."
+    /* Email validation */
+
+    if (
+      form.email &&
+      !/\S+@\S+\.\S+/.test(form.email)
+    ) {
+      newErrors.email =
+        "Please enter a valid email address."
     }
+
+    /* Phone validation */
+
     if (
       form.phone &&
-      !/^\+?[0-9\s-]{10,14}$/.test(form.phone.replace(/\s+/g, ""))
+      !/^\+?[0-9\s-]{10,14}$/.test(
+        form.phone.replace(/\s+/g, "")
+      )
     ) {
-      newErrors.phone = "Please enter a valid phone number (min 10 digits)."
+      newErrors.phone =
+        "Please enter a valid phone number."
     }
 
     if (Object.keys(newErrors).length > 0) {
@@ -132,101 +228,236 @@ export function Franchise({ go }) {
       return
     }
 
+    /* -----------------------------------------
+       START SUBMISSION
+    ----------------------------------------- */
+
     setSubmitting(true)
 
-    setTimeout(() => {
+    try {
+      /* -----------------------------------------
+         FORMSPREE REQUEST
+      ----------------------------------------- */
+
+      const response = await fetch(
+        FORMSPREE_ENDPOINT,
+        {
+          method: "POST",
+
+          headers: {
+            "Content-Type": "application/json",
+            Accept: "application/json",
+          },
+
+          body: JSON.stringify({
+            name: form.name,
+            company: form.company,
+            phone: form.phone,
+            email: form.email,
+            partnership_type: form.type,
+            message: form.message,
+
+            /* Formspree */
+
+            _replyto: form.email,
+
+            _subject:
+              `Franchise / Partnership Enquiry — ${form.type}`,
+          }),
+        }
+      )
+
+      /* -----------------------------------------
+         CHECK RESPONSE
+      ----------------------------------------- */
+
+      if (!response.ok) {
+        throw new Error(
+          "Formspree submission failed."
+        )
+      }
+
+      /* -----------------------------------------
+         SUCCESS
+      ----------------------------------------- */
+
       setSubmitting(false)
       setSent(true)
-    }, 1500)
+    } catch (error) {
+      console.error(
+        "Franchise form error:",
+        error
+      )
+
+      setSubmitting(false)
+
+      setSubmitError(
+        "Something went wrong while sending your enquiry. Please try again or contact us directly."
+      )
+    }
   }
 
   return (
     <>
+      {/* =====================================================
+          HERO
+      ===================================================== */}
+
       <PageHero
         kicker="Franchise / Business Opportunities"
         title={
           <>
             Let&rsquo;s build{" "}
-            <span className="italic text-forest">something together.</span>
+            <span className="italic text-forest">
+              something together.
+            </span>
           </>
         }
         lead="Whether you have a space, a brand or capital, there's a partnership model that fits. Here's where we usually start."
         image={IMG.bodhiTree}
+        imageAlt="Hospitality venue representing franchise and business opportunities"
       />
 
+      {/* =====================================================
+          PARTNERSHIP CATEGORIES
+      ===================================================== */}
+
       <Section className="py-16 lg:py-24">
+
         <div className="grid gap-6 md:grid-cols-2">
+
           {CATEGORIES.map((c, i) => (
             <Reveal
               key={c.t}
               delay={i * 70}
               className="group rounded-none border border-line bg-paper p-8 transition-colors hover:border-forest/50"
             >
+
               <span className="font-display text-3xl text-bronze">
                 0{i + 1}
               </span>
+
               <h3
                 className="mt-4 text-2xl tracking-[-0.01em] text-ink"
-                style={{ fontFamily: "var(--font-display)" }}
+                style={{
+                  fontFamily:
+                    "var(--font-display)",
+                }}
               >
                 {c.t}
               </h3>
-              <p className="mt-3 leading-relaxed text-ink-soft">{c.d}</p>
+
+              <p className="mt-3 leading-relaxed text-ink-soft">
+                {c.d}
+              </p>
+
             </Reveal>
           ))}
+
         </div>
+
       </Section>
 
-      {/* ENQUIRY FORM */}
+      {/* =====================================================
+          FRANCHISE ENQUIRY SECTION
+      ===================================================== */}
+
       <section
         data-tone="dark"
         className="bg-forest-deep py-20 text-paper lg:py-28"
       >
+
         <div className="mx-auto grid max-w-[1440px] gap-12 px-6 lg:grid-cols-[1fr_1.1fr] lg:gap-20 lg:px-12">
+
+          {/* =================================================
+              LEFT CONTENT
+          ================================================= */}
+
           <Reveal>
-            <Kicker tone="light">Business Enquiry</Kicker>
+
+            <Kicker tone="light">
+              Franchise &amp; Partnerships
+            </Kicker>
+
             <h2
               className="mt-5 text-4xl leading-tight tracking-[-0.02em] sm:text-5xl"
-              style={{ fontFamily: "var(--font-display)", fontWeight: 400 }}
+              style={{
+                fontFamily:
+                  "var(--font-display)",
+                fontWeight: 400,
+              }}
             >
               Tell us what you have in mind.
             </h2>
+
             <p className="mt-6 max-w-md leading-relaxed text-paper/70">
-              Share a few details and our partnerships team will get back to you
-              with next steps. Prefer email? Reach us at{" "}
+              Share a few details and our partnerships
+              team will get back to you with the next
+              steps. Whether you have a space, a brand,
+              investment capital or a new hospitality idea,
+              we'd love to hear from you.
+            </p>
+
+            <p className="mt-6 text-sm text-paper/60">
+              Prefer email? Reach us at{" "}
               <a
                 href="mailto:partner@leohospitality.in"
-                className="text-bronze underline-offset-4 hover:underline transition-all"
+                className="text-bronze underline-offset-4 transition-all hover:underline"
               >
                 partner@leohospitality.in
               </a>
               .
             </p>
+
           </Reveal>
 
+          {/* =================================================
+              RIGHT FORM
+          ================================================= */}
+
           <Reveal delay={100}>
+
             <form
               onSubmit={handleSubmit}
               noValidate
               className="grid gap-5 rounded-none bg-paper p-8 text-ink lg:p-10"
             >
-              {/* Honeypot */}
-              <div className="sr-only pointer-events-none" aria-hidden="true">
+
+              {/* =============================================
+                  HONEYPOT
+              ============================================= */}
+
+              <div
+                className="pointer-events-none sr-only"
+                aria-hidden="true"
+              >
                 <input
                   type="text"
                   name="website_url"
                   value={honeypot}
-                  onChange={(e) => setHoneypot(e.target.value)}
+                  onChange={(e) =>
+                    setHoneypot(e.target.value)
+                  }
                   tabIndex={-1}
                   autoComplete="off"
                 />
               </div>
 
+              {/* =============================================
+                  BASIC DETAILS
+              ============================================= */}
+
               <fieldset
                 className="grid gap-5 sm:grid-cols-2"
                 disabled={submitting}
               >
-                <Field label="Name" required>
+
+                {/* Name */}
+
+                <Field
+                  label="Name"
+                  required
+                >
                   <Input
                     name="name"
                     required
@@ -235,23 +466,33 @@ export function Franchise({ go }) {
                     onBlur={handleBlur}
                     placeholder="Your full name"
                   />
+
                   {errors.name && (
-                    <p className="field-error mt-1 text-xs text-red-600 font-medium">
+                    <p className="field-error mt-1 text-xs font-medium text-red-600">
                       {errors.name}
                     </p>
                   )}
                 </Field>
 
+                {/* Company */}
+
                 <Field label="Company / Organization">
+
                   <Input
                     name="company"
                     value={form.company}
                     onChange={handleChange}
                     placeholder="e.g. Firm name (Optional)"
                   />
+
                 </Field>
 
-                <Field label="Phone" required>
+                {/* Phone */}
+
+                <Field
+                  label="Phone"
+                  required
+                >
                   <Input
                     name="phone"
                     type="tel"
@@ -261,14 +502,20 @@ export function Franchise({ go }) {
                     onBlur={handleBlur}
                     placeholder="Contact number"
                   />
+
                   {errors.phone && (
-                    <p className="field-error mt-1 text-xs text-red-600 font-medium">
+                    <p className="field-error mt-1 text-xs font-medium text-red-600">
                       {errors.phone}
                     </p>
                   )}
                 </Field>
 
-                <Field label="Email" required>
+                {/* Email */}
+
+                <Field
+                  label="Email"
+                  required
+                >
                   <Input
                     name="email"
                     type="email"
@@ -278,68 +525,122 @@ export function Franchise({ go }) {
                     onBlur={handleBlur}
                     placeholder="you@company.com"
                   />
+
                   {errors.email && (
-                    <p className="field-error mt-1 text-xs text-red-600 font-medium">
+                    <p className="field-error mt-1 text-xs font-medium text-red-600">
                       {errors.email}
                     </p>
                   )}
                 </Field>
+
               </fieldset>
 
-              <Field label="Enquiry Type" required>
+              {/* =============================================
+                  PARTNERSHIP TYPE
+              ============================================= */}
+
+              <Field
+                label="Partnership Type"
+                required
+              >
+
                 <Select
                   name="type"
                   required
                   value={form.type}
                   onChange={handleChange}
                   onBlur={handleBlur}
+                  disabled={submitting}
                 >
-                  <option value="" disabled>
+
+                  <option
+                    value=""
+                    disabled
+                  >
                     Select a partnership type
                   </option>
+
                   {CATEGORIES.map((c) => (
-                    <option key={c.t} value={c.t}>
+                    <option
+                      key={c.t}
+                      value={c.t}
+                    >
                       {c.t}
                     </option>
                   ))}
-                  <option value="Other">Other</option>
+
+                  <option value="Other">
+                    Other
+                  </option>
+
                 </Select>
+
                 {errors.type && (
-                  <p className="field-error mt-1 text-xs text-red-600 font-medium">
+                  <p className="field-error mt-1 text-xs font-medium text-red-600">
                     {errors.type}
                   </p>
                 )}
+
               </Field>
 
-              <Field label="Message" required>
+              {/* =============================================
+                  MESSAGE
+              ============================================= */}
+
+              <Field
+                label="Message"
+                required
+              >
+
                 <Textarea
                   name="message"
                   required
                   value={form.message}
                   onChange={handleChange}
                   onBlur={handleBlur}
-                  placeholder="Tell us about your space, brand or idea…"
+                  placeholder="Tell us about your space, brand, investment or idea…"
+                  disabled={submitting}
                 />
+
                 {errors.message && (
-                  <p className="field-error mt-1 text-xs text-red-600 font-medium">
+                  <p className="field-error mt-1 text-xs font-medium text-red-600">
                     {errors.message}
                   </p>
                 )}
+
               </Field>
 
+              {/* =============================================
+                  ERROR MESSAGE
+              ============================================= */}
+
+              {submitError && (
+                <div className="border border-red-200 bg-red-50 px-4 py-3 text-sm leading-relaxed text-red-700">
+                  {submitError}
+                </div>
+              )}
+
+              {/* =============================================
+                  SUBMIT
+              ============================================= */}
+
               <div>
+
                 <Button
                   type="submit"
                   disabled={submitting}
                   className="mt-2 w-full sm:w-auto"
                 >
+
                   {submitting ? (
                     <span className="flex items-center gap-2">
+
                       <svg
-                        className="animate-spin h-4 w-4 text-paper"
+                        className="h-4 w-4 animate-spin text-paper"
                         fill="none"
                         viewBox="0 0 24 24"
                       >
+
                         <circle
                           className="opacity-25"
                           cx="12"
@@ -348,54 +649,85 @@ export function Franchise({ go }) {
                           stroke="currentColor"
                           strokeWidth="4"
                         />
+
                         <path
                           className="opacity-75"
                           fill="currentColor"
                           d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
                         />
+
                       </svg>
-                      Submitting enquiry...
+
+                      Sending Enquiry...
+
                     </span>
                   ) : (
                     <>
-                      Submit Enquiry <Arrow />
+                      Submit Enquiry
+                      <Arrow />
                     </>
                   )}
+
                 </Button>
+
               </div>
+
             </form>
+
+            {/* =================================================
+                SUCCESS MODAL
+            ================================================= */}
 
             {sent && (
               <SuccessModal
                 kicker="Enquiry Registered"
-                title={`Thank you${form.name ? `, ${form.name}` : ""}!`}
+                title={`Thank you${
+                  form.name
+                    ? `, ${form.name}`
+                    : ""
+                }!`}
                 message={
                   <>
-                    Your franchise enquiry has been registered. Our business
-                    development team will review your{" "}
+                    Your franchise enquiry has been
+                    received. Our business development
+                    team will review your{" "}
                     {form.type ? (
                       <>
                         interest in{" "}
                         <span className="font-medium text-forest">
                           &ldquo;{form.type}&rdquo;
                         </span>{" "}
+                        and get back to you within
+                        2&ndash;3 business days.
                       </>
                     ) : (
-                      "partnership details "
+                      "partnership details and get back to you within 2–3 business days."
                     )}
-                    and follow up within 2&ndash;3 business days.
                   </>
                 }
                 summary={[
                   ...(form.type
-                    ? [{ label: "Partnership", value: form.type }]
+                    ? [
+                        {
+                          label: "Partnership",
+                          value: form.type,
+                        },
+                      ]
                     : []),
+
                   ...(form.phone
-                    ? [{ label: "Direct Phone", value: form.phone }]
+                    ? [
+                        {
+                          label: "Direct Phone",
+                          value: form.phone,
+                        },
+                      ]
                     : []),
+
                   {
                     label: "Routing",
-                    value: "Business Development",
+                    value:
+                      "Business Development",
                     accent: true,
                   },
                 ]}
@@ -406,8 +738,11 @@ export function Franchise({ go }) {
                 onClose={resetForm}
               />
             )}
+
           </Reveal>
+
         </div>
+
       </section>
     </>
   )

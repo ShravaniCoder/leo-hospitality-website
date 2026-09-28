@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react"
+import { useState } from "react"
 import {
   Button,
   Arrow,
@@ -65,23 +65,6 @@ const INDIAN_STATES = [
   "Other Union Territory",
 ]
 
-const MAJOR_BANKS = [
-  "HDFC Bank",
-  "State Bank of India (SBI)",
-  "ICICI Bank",
-  "Axis Bank",
-  "Kotak Mahindra Bank",
-  "Bank of Baroda",
-  "Punjab National Bank",
-  "Canara Bank",
-  "Union Bank of India",
-  "IndusInd Bank",
-  "IDFC FIRST Bank",
-  "Federal Bank",
-  "Yes Bank",
-  "Other Bank",
-]
-
 const VENDOR_CATEGORY_CARDS = [
   {
     t: "Food & Dry Grocery",
@@ -105,21 +88,14 @@ const VENDOR_CATEGORY_CARDS = [
   },
   {
     t: "Dairy & Proteins",
-    d: "Fresh cheeses, organic dairy, eggs, and quality-tested seafood & poultry.",
+    d: "Fresh cheeses, eggs, seafood, poultry, and quality food ingredients.",
     icon: "M12 3v18m-9-9h18",
   },
   {
     t: "Packaging & Supplies",
-    d: "Eco-friendly delivery containers, hygiene sanitizers, and pantry stores.",
+    d: "Eco-friendly delivery containers, hygiene supplies, and pantry stores.",
     icon: "M3 9l9-5 9 5-9 5-9-5zm0 0v6l9 5 9-5V9",
   },
-]
-
-const VENDOR_BENEFITS = [
-  "Predictable, high-volume recurring demand across all venues and cloud kitchens",
-  "Transparent, structured payment cycles with digital KYC invoice clearances",
-  "Dedicated procurement executive desk for prompt order logistics & queries",
-  "Rapid expansion opportunities across prime Tier-1 & luxury hospitality hubs",
 ]
 
 /* -------------------------------------------------------------------------- */
@@ -131,6 +107,7 @@ export function Vendor({ go }) {
   const [direction, setDirection] = useState("forward")
   const [pageSheen, setPageSheen] = useState(false)
   const [completedStepRipple, setCompletedStepRipple] = useState(null)
+
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [isSubmitted, setIsSubmitted] = useState(false)
   const [greetingOpen, setGreetingOpen] = useState(false)
@@ -138,110 +115,62 @@ export function Vendor({ go }) {
   const [copiedId, setCopiedId] = useState(false)
   const [honeypot, setHoneypot] = useState("")
 
-  // Form State initialized with all fields from Excel
   const [form, setForm] = useState({
     partyName: "",
     firmType: "Proprietorship",
     category: "",
     contactPerson: "",
-    designation: "Proprietor / Partner / Director",
+    designation: "",
     phone: "",
     alternatePhone: "",
     email: "",
+    website: "",
+
     address1: "",
     address2: "",
     city: "Mumbai",
     state: "Maharashtra",
     pinCode: "",
 
-    panNumber: "",
-    aadhaarNumber: "",
-    gstNumber: "",
-    additionalGstNumber: "",
-    fssaiNumber: "",
-    hsnCode: "",
     productDescription: "",
+    supplyCapacity: "",
+    deliveryAreas: "",
+    yearsInBusiness: "",
+    additionalInformation: "",
 
-    bankName: "HDFC Bank",
-    customBankName: "",
-    branchName: "",
-    accountType: "Current",
-    accountNumber: "",
-    confirmAccountNumber: "",
-    ifscCode: "",
-
-    einvoicingApplicable: "not_applicable",
-    einvoicingUndertaking: true,
-    section206abConfirmed: true,
-    itrAck1: "",
-    itrDate1: "",
-    itrAck2: "",
-    itrDate2: "",
-    signatoryName: "",
-    signatoryDesignation: "",
-    declarationPlace: "Mumbai",
-    declarationDate: new Date().toISOString().split("T")[0],
     finalConsent: false,
   })
 
   const [errors, setErrors] = useState({})
 
-  // Document Uploads State with animated upload progress
-  const [docs, setDocs] = useState({
-    pan: { file: null, name: "", size: "", progress: 0, uploaded: false },
-    gst: { file: null, name: "", size: "", progress: 0, uploaded: false },
-    cheque: { file: null, name: "", size: "", progress: 0, uploaded: false },
-    fssai: { file: null, name: "", size: "", progress: 0, uploaded: false },
-    signedForm: {
-      file: null,
-      name: "",
-      size: "",
-      progress: 0,
-      uploaded: false,
-    },
-  })
+  /* ------------------------------------------------------------------------ */
+  /*                           INPUT HANDLER                                  */
+  /* ------------------------------------------------------------------------ */
 
-  // Autofill signatory name from contact person if blank
-  useEffect(() => {
-    if (form.contactPerson && !form.signatoryName) {
-      setForm((prev) => ({ ...prev, signatoryName: form.contactPerson }))
-    }
-  }, [form.contactPerson, form.signatoryName])
-
-  // Field change handler with automatic formatting
   const handleInputChange = (e) => {
     const { name, value } = e.target
+
     let formattedValue = value
 
-    // Formatting rules
-    if (name === "panNumber") {
+    if (name === "phone" || name === "alternatePhone") {
       formattedValue = value
-        .toUpperCase()
-        .replace(/[^A-Z0-9]/g, "")
-        .slice(0, 10)
-    } else if (name === "gstNumber" || name === "additionalGstNumber") {
-      formattedValue = value
-        .toUpperCase()
-        .replace(/[^A-Z0-9]/g, "")
-        .slice(0, 15)
-    } else if (name === "ifscCode") {
-      formattedValue = value
-        .toUpperCase()
-        .replace(/[^A-Z0-9]/g, "")
-        .slice(0, 11)
-    } else if (name === "aadhaarNumber") {
-      formattedValue = value.replace(/\D/g, "").slice(0, 12)
-    } else if (name === "pinCode") {
-      formattedValue = value.replace(/\D/g, "").slice(0, 6)
-    } else if (name === "fssaiNumber") {
-      formattedValue = value.replace(/\D/g, "").slice(0, 14)
-    } else if (name === "phone" || name === "alternatePhone") {
-      formattedValue = value.replace(/[^\d+-\s]/g, "").slice(0, 15)
+        .replace(/[^\d+\-\s()]/g, "")
+        .slice(0, 18)
     }
 
-    setForm((prev) => ({ ...prev, [name]: formattedValue }))
+    if (name === "pinCode") {
+      formattedValue = value.replace(/\D/g, "").slice(0, 6)
+    }
 
-    // Clear error
+    if (name === "yearsInBusiness") {
+      formattedValue = value.replace(/\D/g, "").slice(0, 2)
+    }
+
+    setForm((prev) => ({
+      ...prev,
+      [name]: formattedValue,
+    }))
+
     if (errors[name]) {
       setErrors((prev) => {
         const next = { ...prev }
@@ -251,134 +180,84 @@ export function Vendor({ go }) {
     }
   }
 
-  // Handle simulated animated file upload
-  const handleFileUpload = (key, file) => {
-    if (!file) {
-      setDocs((prev) => ({
-        ...prev,
-        [key]: { file: null, name: "", size: "", progress: 0, uploaded: false },
-      }))
-      return
-    }
+  /* ------------------------------------------------------------------------ */
+  /*                              VALIDATION                                  */
+  /* ------------------------------------------------------------------------ */
 
-    // Check size (Max 8MB)
-    if (file.size > 8 * 1024 * 1024) {
-      setErrors((prev) => ({ ...prev, [key]: "File size exceeds 8MB limit." }))
-      return
-    }
-
-    const fileSizeStr =
-      file.size > 1024 * 1024
-        ? `${(file.size / (1024 * 1024)).toFixed(1)} MB`
-        : `${Math.round(file.size / 1024)} KB`
-
-    // Start upload simulation
-    setDocs((prev) => ({
-      ...prev,
-      [key]: {
-        file,
-        name: file.name,
-        size: fileSizeStr,
-        progress: 25,
-        uploaded: false,
-      },
-    }))
-
-    // Clear any previous error
-    setErrors((prev) => {
-      const next = { ...prev }
-      delete next[key]
-      return next
-    })
-
-    // Progress animation
-    setTimeout(() => {
-      setDocs((prev) => ({
-        ...prev,
-        [key]: { ...prev[key], progress: 65 },
-      }))
-      setTimeout(() => {
-        setDocs((prev) => ({
-          ...prev,
-          [key]: { ...prev[key], progress: 100, uploaded: true },
-        }))
-      }, 250)
-    }, 200)
-  }
-
-  // Validate current step before advancing
   const validateStep = (stepNumber) => {
     const stepErrors = {}
 
+    /* STEP 1 */
     if (stepNumber === 1) {
-      if (!form.partyName.trim())
-        stepErrors.partyName = "Party / Legal Firm Name is required."
-      if (!form.category)
+      if (!form.partyName.trim()) {
+        stepErrors.partyName = "Business / Vendor name is required."
+      }
+
+      if (!form.category) {
         stepErrors.category = "Please select a vendor category."
-      if (!form.contactPerson.trim())
-        stepErrors.contactPerson = "Contact Person name is required."
-      if (!form.phone.trim() || form.phone.replace(/\D/g, "").length < 10) {
+      }
+
+      if (!form.contactPerson.trim()) {
+        stepErrors.contactPerson = "Contact person name is required."
+      }
+
+      if (!form.designation.trim()) {
+        stepErrors.designation = "Designation / role is required."
+      }
+
+      if (
+        !form.phone.trim() ||
+        form.phone.replace(/\D/g, "").length < 10
+      ) {
         stepErrors.phone = "Valid 10-digit phone number is required."
       }
-      if (!form.email.trim() || !/\S+@\S+\.\S+/.test(form.email)) {
-        stepErrors.email = "Valid corporate email address is required."
+
+      if (
+        !form.email.trim() ||
+        !/\S+@\S+\.\S+/.test(form.email)
+      ) {
+        stepErrors.email = "Valid email address is required."
       }
-      if (!form.address1.trim())
-        stepErrors.address1 = "Address Line 1 is required."
-      if (!form.city.trim()) stepErrors.city = "City is required."
-      if (!form.pinCode.trim() || form.pinCode.length < 6) {
+
+      if (!form.address1.trim()) {
+        stepErrors.address1 = "Address is required."
+      }
+
+      if (!form.city.trim()) {
+        stepErrors.city = "City is required."
+      }
+
+      if (
+        !form.pinCode.trim() ||
+        form.pinCode.length !== 6
+      ) {
         stepErrors.pinCode = "Valid 6-digit PIN code is required."
       }
-    } else if (stepNumber === 2) {
-      if (!form.panNumber.trim() || form.panNumber.length !== 10) {
-        stepErrors.panNumber =
-          "Valid 10-character PAN number is required (e.g. ABCDE1234F)."
+    }
+
+    /* STEP 2 */
+    if (stepNumber === 2) {
+      if (!form.productDescription.trim()) {
+        stepErrors.productDescription =
+          "Please tell us about your products or services."
       }
-      if (!form.gstNumber.trim() || form.gstNumber.length !== 15) {
-        stepErrors.gstNumber =
-          "Valid 15-character GSTIN is required (or 15 zeros if unregistered)."
+
+      if (!form.supplyCapacity.trim()) {
+        stepErrors.supplyCapacity =
+          "Please mention your approximate supply capacity."
       }
-      if (form.aadhaarNumber && form.aadhaarNumber.length !== 12) {
-        stepErrors.aadhaarNumber = "Aadhaar number must be 12 digits."
+
+      if (!form.deliveryAreas.trim()) {
+        stepErrors.deliveryAreas =
+          "Please mention your delivery / service areas."
       }
-      if (form.fssaiNumber && form.fssaiNumber.length !== 14) {
-        stepErrors.fssaiNumber =
-          "FSSAI license must be exactly 14 numeric digits."
-      }
-    } else if (stepNumber === 3) {
-      if (!form.bankName) stepErrors.bankName = "Please select your bank."
-      if (form.bankName === "Other Bank" && !form.customBankName.trim()) {
-        stepErrors.customBankName = "Please specify your bank name."
-      }
-      if (!form.branchName.trim())
-        stepErrors.branchName = "Branch name is required."
-      if (!form.accountNumber.trim())
-        stepErrors.accountNumber = "Bank account number is required."
-      if (form.accountNumber !== form.confirmAccountNumber) {
-        stepErrors.confirmAccountNumber = "Account numbers do not match."
-      }
-      if (!form.ifscCode.trim() || form.ifscCode.length !== 11) {
-        stepErrors.ifscCode =
-          "Valid 11-character IFSC code is required (e.g. HDFC0001234)."
-      }
-    } else if (stepNumber === 4) {
-      if (!docs.pan.uploaded)
-        stepErrors.pan = "Scanned copy of PAN card is required."
-      if (!docs.gst.uploaded)
-        stepErrors.gst = "Scanned copy of GST certificate is required."
-      if (!docs.cheque.uploaded)
-        stepErrors.cheque = "Scanned copy of Cancelled Cheque is required."
-      if (!form.einvoicingApplicable) {
-        stepErrors.einvoicingApplicable =
-          "Please declare whether E-invoicing applies to your firm."
-      }
-      if (!form.signatoryName.trim()) {
-        stepErrors.signatoryName = "Authorized Signatory Name is required."
-      }
-    } else if (stepNumber === 5) {
+    }
+
+    /* STEP 3 */
+    if (stepNumber === 3) {
       if (!form.finalConsent) {
         stepErrors.finalConsent =
-          "You must confirm the statutory accuracy of this registration."
+          "Please confirm that the information provided is accurate."
       }
     }
 
@@ -386,43 +265,43 @@ export function Vendor({ go }) {
 
     if (Object.keys(stepErrors).length > 0) {
       const firstField = Object.keys(stepErrors)[0]
-      const el = document.getElementsByName(firstField)[0]
-      if (el) {
-        el.scrollIntoView({ behavior: "smooth", block: "center" })
-        el.focus()
+      const element = document.getElementsByName(firstField)[0]
+
+      if (element) {
+        element.scrollIntoView({
+          behavior: "smooth",
+          block: "center",
+        })
+
+        element.focus()
       }
+
       return false
     }
 
     return true
   }
 
+  /* ------------------------------------------------------------------------ */
+  /*                           NEXT STEP                                      */
+  /* ------------------------------------------------------------------------ */
+
   const handleNextStep = () => {
-    if (validateStep(currentStep)) {
-      setDirection("forward")
-      setPageSheen(true)
-      setCompletedStepRipple(currentStep)
-      setCurrentStep((prev) => Math.min(prev + 1, 5))
+    if (!validateStep(currentStep)) return
 
-      const formCard = document.getElementById("kyc-form-card")
-      if (formCard) {
-        formCard.scrollIntoView({ behavior: "smooth", block: "start" })
-      }
-
-      setTimeout(() => {
-        setPageSheen(false)
-      }, 950)
-    }
-  }
-
-  const handlePrevStep = () => {
-    setDirection("backward")
+    setDirection("forward")
     setPageSheen(true)
-    setCurrentStep((prev) => Math.max(prev - 1, 1))
+    setCompletedStepRipple(currentStep)
 
-    const formCard = document.getElementById("kyc-form-card")
+    setCurrentStep((prev) => Math.min(prev + 1, 3))
+
+    const formCard = document.getElementById("vendor-form-card")
+
     if (formCard) {
-      formCard.scrollIntoView({ behavior: "smooth", block: "start" })
+      formCard.scrollIntoView({
+        behavior: "smooth",
+        block: "start",
+      })
     }
 
     setTimeout(() => {
@@ -430,22 +309,58 @@ export function Vendor({ go }) {
     }, 950)
   }
 
-  const handleJumpToStep = (targetStep) => {
-    if (targetStep < currentStep) {
-      setDirection("backward")
-      setPageSheen(true)
-      setCurrentStep(targetStep)
+  /* ------------------------------------------------------------------------ */
+  /*                           PREVIOUS STEP                                  */
+  /* ------------------------------------------------------------------------ */
 
-      const formCard = document.getElementById("kyc-form-card")
-      if (formCard) {
-        formCard.scrollIntoView({ behavior: "smooth", block: "start" })
-      }
+  const handlePrevStep = () => {
+    setDirection("backward")
+    setPageSheen(true)
 
-      setTimeout(() => {
-        setPageSheen(false)
-      }, 950)
+    setCurrentStep((prev) => Math.max(prev - 1, 1))
+
+    const formCard = document.getElementById("vendor-form-card")
+
+    if (formCard) {
+      formCard.scrollIntoView({
+        behavior: "smooth",
+        block: "start",
+      })
     }
+
+    setTimeout(() => {
+      setPageSheen(false)
+    }, 950)
   }
+
+  /* ------------------------------------------------------------------------ */
+  /*                           JUMP TO STEP                                   */
+  /* ------------------------------------------------------------------------ */
+
+  const handleJumpToStep = (targetStep) => {
+    if (targetStep >= currentStep) return
+
+    setDirection("backward")
+    setPageSheen(true)
+    setCurrentStep(targetStep)
+
+    const formCard = document.getElementById("vendor-form-card")
+
+    if (formCard) {
+      formCard.scrollIntoView({
+        behavior: "smooth",
+        block: "start",
+      })
+    }
+
+    setTimeout(() => {
+      setPageSheen(false)
+    }, 950)
+  }
+
+  /* ------------------------------------------------------------------------ */
+  /*                              SUBMIT                                      */
+  /* ------------------------------------------------------------------------ */
 
   const handleSubmit = (e) => {
     e.preventDefault()
@@ -455,51 +370,85 @@ export function Vendor({ go }) {
       return
     }
 
-    if (!validateStep(5)) return
+    if (!validateStep(3)) return
 
     setIsSubmitting(true)
 
-    // Simulate backend KYC processing & generation of tracking token
+    /*
+      Replace this simulated submission with your API/Formspree endpoint
+      when your backend is ready.
+    */
+
     setTimeout(() => {
-      const randomToken = `LHV-KYC-${new Date().getFullYear()}-${Math.floor(
+      const randomToken = `LHV-VND-${new Date().getFullYear()}-${Math.floor(
         1000 + Math.random() * 9000,
       )}`
+
       setSubmissionId(randomToken)
       setIsSubmitting(false)
       setIsSubmitted(true)
       setGreetingOpen(true)
-      window.scrollTo({ top: 300, behavior: "smooth" })
-    }, 1400)
+
+      window.scrollTo({
+        top: 300,
+        behavior: "smooth",
+      })
+    }, 1200)
   }
+
+  /* ------------------------------------------------------------------------ */
+  /*                           COPY ID                                        */
+  /* ------------------------------------------------------------------------ */
 
   const handleCopyId = () => {
     if (navigator.clipboard && submissionId) {
       navigator.clipboard.writeText(submissionId)
+
       setCopiedId(true)
-      setTimeout(() => setCopiedId(false), 2000)
+
+      setTimeout(() => {
+        setCopiedId(false)
+      }, 2000)
     }
   }
 
   return (
     <>
+      {/* ------------------------------------------------------------------ */}
+      {/* SUCCESS MODAL                                                      */}
+      {/* ------------------------------------------------------------------ */}
+
       {greetingOpen && (
         <SuccessModal
-          kicker="Vendor KYC Received"
-          title={`Thank you${form.partyName ? `, ${form.partyName}` : ""}!`}
+          kicker="Vendor Registration Received"
+          title={`Thank you${
+            form.partyName ? `, ${form.partyName}` : ""
+          }!`}
           message={
             <>
-              Your vendor registration has been securely logged in our central
-              procurement queue for compliance verification. Verified suppliers
-              receive recurring procurement orders across our restaurants, cafes
-              and cloud kitchens.
+              Your vendor registration has been successfully received.
+              Our procurement team will review your business profile and
+              contact you if there is an opportunity to collaborate.
             </>
           }
           summary={[
-            { label: "Tracking ID", value: submissionId, accent: true },
+            {
+              label: "Registration ID",
+              value: submissionId,
+              accent: true,
+            },
             ...(form.category
-              ? [{ label: "Category", value: form.category }]
+              ? [
+                  {
+                    label: "Category",
+                    value: form.category,
+                  },
+                ]
               : []),
-            { label: "Routing", value: "Procurement Desk" },
+            {
+              label: "Routing",
+              value: "Procurement Desk",
+            },
           ]}
           primaryLabel="Return Home"
           onPrimary={() => go("home")}
@@ -508,32 +457,50 @@ export function Vendor({ go }) {
           onClose={() => setGreetingOpen(false)}
         />
       )}
+
+      {/* ------------------------------------------------------------------ */}
+      {/* PAGE HERO                                                          */}
+      {/* ------------------------------------------------------------------ */}
+
       <PageHero
         kicker="Supplier & Partner Network"
         title={
           <>
-            New Vendor{" "}
-            <span className="italic text-forest">KYC Registration.</span>
+            Vendor{" "}
+            <span className="italic text-forest">
+              Registration.
+            </span>
           </>
         }
-        lead="Complete the official Leo Hospitality & Ventures vendor onboarding questionnaire. Verified suppliers receive recurring procurement orders across our restaurants, cafes, and cloud kitchens."
+        lead="Tell us about your business, products, services, and supply capabilities. Our procurement team will review your profile for potential collaboration."
         image={IMG.chefSink}
       />
 
-      {/* CATEGORIES SECTION */}
+      {/* ------------------------------------------------------------------ */}
+      {/* CATEGORY SECTION                                                   */}
+      {/* ------------------------------------------------------------------ */}
+
       <Section className="py-14 lg:py-20 border-b border-line/40">
         <Reveal className="max-w-3xl">
           <Kicker>Procurement Disciplines</Kicker>
+
           <h2
             className="mt-5 text-3xl leading-tight tracking-[-0.02em] text-ink sm:text-4xl"
-            style={{ fontFamily: "var(--font-display)", fontWeight: 400 }}
+            style={{
+              fontFamily: "var(--font-display)",
+              fontWeight: 400,
+            }}
           >
             Supply categories currently{" "}
-            <span className="italic text-forest">onboarding.</span>
+            <span className="italic text-forest">
+              onboarding.
+            </span>
           </h2>
+
           <p className="mt-4 leading-relaxed text-ink-soft">
-            We partner with certified producers and distributors who adhere to
-            strict hygiene, packaging, and timely cold-chain transport.
+            We welcome suppliers and service providers who can
+            support our hospitality, restaurant, café, events,
+            and operational requirements.
           </p>
         </Reveal>
 
@@ -560,21 +527,22 @@ export function Vendor({ go }) {
                       <path d={c.icon} />
                     </svg>
                   </span>
+
                   <span className="font-display text-xl text-line transition-colors duration-300 group-hover:text-bronze">
                     0{i + 1}
                   </span>
                 </div>
-                <h3
-                  className="mt-5 text-lg font-medium tracking-tight text-ink transition-colors duration-300 group-hover:text-forest"
-                  style={{ fontFamily: "var(--font-display)" }}
-                >
+
+                <h3 className="mt-5 text-lg font-semibold text-ink">
                   {c.t}
                 </h3>
-                <p className="mt-2 text-xs leading-relaxed text-ink-soft">
+
+                <p className="mt-2 text-sm leading-relaxed text-ink-soft">
                   {c.d}
                 </p>
               </div>
-              <div className="mt-6 flex items-center gap-1.5 text-[11px] font-semibold uppercase tracking-wider text-forest opacity-0 transition-opacity duration-300 group-hover:opacity-100">
+
+              <div className="mt-6 flex items-center justify-between border-t border-line/70 pt-4 text-xs font-semibold uppercase tracking-wider text-forest opacity-60 transition-opacity duration-300 group-hover:opacity-100">
                 <span>Active Demand</span>
                 <span>→</span>
               </div>
@@ -583,70 +551,95 @@ export function Vendor({ go }) {
         </div>
       </Section>
 
-      {/* INTERACTIVE KYC ONBOARDING PORTAL */}
+      {/* ------------------------------------------------------------------ */}
+      {/* VENDOR REGISTRATION PORTAL                                         */}
+      {/* ------------------------------------------------------------------ */}
+
       <section
         className="relative overflow-hidden bg-[#faf8f4] py-16 lg:py-24"
-        id="kyc-form-card"
+        id="vendor-form-card"
       >
-        {/* Subtle decorative background gradient */}
+        {/* Background decoration */}
         <div
           aria-hidden="true"
           className="pointer-events-none absolute -top-40 right-1/4 h-96 w-96 rounded-full bg-forest/[0.04] blur-3xl"
         />
 
         <div className="mx-auto max-w-[1240px] px-6 lg:px-12">
-          {/* Header banner */}
+
+          {/* Header */}
           <div className="mb-10 text-center">
             <span className="font-mono text-xs uppercase tracking-[0.24em] text-bronze font-semibold">
-              Official KYC Portal
+              Vendor Registration
             </span>
+
             <h2
               className="mt-2 text-3xl sm:text-4xl text-ink"
-              style={{ fontFamily: "var(--font-display)", fontWeight: 400 }}
+              style={{
+                fontFamily: "var(--font-display)",
+                fontWeight: 400,
+              }}
             >
               Vendor Empanelment Application
             </h2>
+
             <p className="mt-3 text-sm text-ink-soft max-w-xl mx-auto">
-              Compliant with Section 206AB of the Income Tax Act, 1961, GSTIN
-              verification protocols, and FSSAI Food Safety Standards.
+              Share your business and supply details with our
+              procurement team. No sensitive financial or identity
+              documents are required at this stage.
             </p>
           </div>
 
-          {/* Stepper Progress Bar */}
+          {/* ---------------------------------------------------------------- */}
+          {/* STEPPER                                                          */}
+          {/* ---------------------------------------------------------------- */}
+
           {!isSubmitted && (
             <div className="mb-10">
               <div className="relative mx-auto max-w-3xl">
-                {/* Background Line */}
+
+                {/* Background line */}
                 <div className="absolute top-5 left-0 right-0 h-0.5 bg-line/60 -z-0" />
-                {/* Active Filled Line with smooth transition */}
+
+                {/* Active line */}
                 <div
                   className="absolute top-5 left-0 h-0.5 bg-forest transition-all duration-500 ease-out -z-0"
                   style={{
-                    width: `${((currentStep - 1) / 4) * 100}%`,
+                    width: `${((currentStep - 1) / 2) * 100}%`,
                   }}
                 />
 
-                {/* Step Pills */}
+                {/* Steps */}
                 <div className="relative z-10 flex justify-between">
                   {[
-                    { n: 1, label: "Firm Profile" },
-                    { n: 2, label: "Statutory & Tax" },
-                    { n: 3, label: "Bank KYC" },
-                    { n: 4, label: "Declarations" },
-                    { n: 5, label: "Review & Sign" },
+                    {
+                      n: 1,
+                      label: "Business Profile",
+                    },
+                    {
+                      n: 2,
+                      label: "Supply Details",
+                    },
+                    {
+                      n: 3,
+                      label: "Review & Submit",
+                    },
                   ].map((s) => {
                     const isDone = currentStep > s.n
                     const isCurrent = currentStep === s.n
+
                     return (
                       <button
                         key={s.n}
                         type="button"
-                        onClick={() => handleJumpToStep(s.n)}
-                        disabled={s.n > currentStep}
+                        onClick={() =>
+                          handleJumpToStep(s.n)
+                        }
+                        disabled={s.n >= currentStep}
                         className={`group flex flex-col items-center focus:outline-none transition-transform duration-300 ${
-                          s.n <= currentStep
+                          s.n < currentStep
                             ? "cursor-pointer hover:scale-105"
-                            : "cursor-not-allowed opacity-70"
+                            : "cursor-default"
                         }`}
                       >
                         <div
@@ -680,6 +673,7 @@ export function Vendor({ go }) {
                             s.n
                           )}
                         </div>
+
                         <span
                           className={`mt-2 text-[11px] font-medium tracking-wide transition-colors ${
                             isCurrent
@@ -699,29 +693,37 @@ export function Vendor({ go }) {
             </div>
           )}
 
-          {/* FORM CONTAINER WITH 3D BOOK FOLIO BINDING & TURNING ANIMATION */}
+          {/* ---------------------------------------------------------------- */}
+          {/* MAIN FORM CARD                                                   */}
+          {/* ---------------------------------------------------------------- */}
+
           <div
             className="relative mx-auto max-w-4xl"
-            style={{ perspective: "1400px" }}
+            style={{
+              perspective: "1400px",
+            }}
           >
-            {/* Physical Leather/Spine Edge on left */}
+            {/* Left spine */}
             <div
               aria-hidden="true"
               className="pointer-events-none absolute -left-2.5 top-0 bottom-0 w-3 bg-gradient-to-r from-black/25 via-black/10 to-transparent rounded-l-xs z-30 hidden sm:block"
             />
 
-            {/* Folio Corner Bookmark / Turned Page Ribbon */}
+            {/* Folio label */}
             {!isSubmitted && (
               <div
                 aria-hidden="true"
                 className="pointer-events-none absolute -top-3 right-6 z-30 flex items-center gap-2 rounded-b-md bg-[#23452b] px-3.5 py-1 text-[10.5px] font-mono uppercase tracking-widest text-[#f5ebd7] shadow-md border-b border-x border-[#d8c29d]/40"
               >
                 <span className="inline-block h-1.5 w-1.5 rounded-full bg-[#d8c29d] animate-pulse" />
-                <span>FOLIO 0{currentStep} / 05</span>
+
+                <span>
+                  FOLIO 0{currentStep} / 03
+                </span>
               </div>
             )}
 
-            {/* Golden Sheen Sweep Effect on Page Turn */}
+            {/* Golden page sheen */}
             {pageSheen && (
               <div
                 aria-hidden="true"
@@ -731,7 +733,7 @@ export function Vendor({ go }) {
               </div>
             )}
 
-            {/* The Main Turning Page */}
+            {/* Main page */}
             <div
               key={currentStep}
               className={`rounded-none border border-line bg-paper shadow-[0_25px_60px_-25px_rgba(22,51,31,0.14)] relative overflow-hidden transition-all duration-500 ${
@@ -742,26 +744,34 @@ export function Vendor({ go }) {
                   : "animate-fadeIn"
               }`}
             >
-              {/* Subtle Book Spine crease line on left side */}
+              {/* Spine crease */}
               <div
                 aria-hidden="true"
                 className="pointer-events-none absolute left-0 top-0 bottom-0 w-[6px] border-r border-line/70 bg-gradient-to-r from-stone-200/50 to-transparent z-20 hidden sm:block"
               />
+
+              {/* ============================================================ */}
+              {/* SUCCESS STATE                                                 */}
+              {/* ============================================================ */}
+
               {isSubmitted ? (
-                /* SUCCESS RECEIPT STATE */
                 <div className="p-8 sm:p-14 text-center animate-fadeIn">
+
                   <div className="mx-auto mb-6 flex h-20 w-20 items-center justify-center rounded-full bg-forest/10 text-forest text-4xl shadow-inner">
                     ✓
                   </div>
 
                   <span className="font-mono text-xs uppercase tracking-[0.24em] text-bronze font-semibold">
-                    Application Transmitted
+                    Registration Received
                   </span>
+
                   <h3
                     className="mt-2 text-3xl sm:text-4xl text-forest"
-                    style={{ fontFamily: "var(--font-display)" }}
+                    style={{
+                      fontFamily: "var(--font-display)",
+                    }}
                   >
-                    KYC Form Successfully Submitted
+                    Vendor Registration Submitted
                   </h3>
 
                   <p className="mx-auto mt-4 max-w-lg text-sm text-ink-soft leading-relaxed">
@@ -769,46 +779,59 @@ export function Vendor({ go }) {
                     <span className="font-semibold text-ink">
                       {form.partyName}
                     </span>
-                    . Your vendor registration file has been safely logged in
-                    our central procurement queue for compliance verification.
+                    . Your vendor profile has been received by
+                    our procurement team.
                   </p>
 
-                  {/* Reference ID Card */}
+                  {/* Reference card */}
                   <div className="my-8 mx-auto max-w-md rounded-none border border-line bg-cream/70 p-6 shadow-xs">
+
                     <div className="text-[11px] font-mono uppercase tracking-wider text-ink-soft">
-                      Submission Tracking ID
+                      Registration ID
                     </div>
+
                     <div className="mt-2 flex items-center justify-center gap-3">
                       <span className="font-mono text-xl sm:text-2xl font-bold tracking-wider text-forest">
                         {submissionId}
                       </span>
+
                       <button
                         type="button"
                         onClick={handleCopyId}
-                        className="rounded-full border border-line bg-paper px-3 py-1 text-xs text-ink hover:border-forest transition-colors flex items-center gap-1"
+                        className="rounded-full border border-line bg-paper px-3 py-1 text-xs text-ink hover:border-forest transition-colors"
                       >
-                        {copiedId ? "Copied!" : "Copy"}
+                        {copiedId
+                          ? "Copied!"
+                          : "Copy"}
                       </button>
                     </div>
-                    <div className="mt-3 text-xs text-ink-soft border-t border-line/60 pt-3 flex justify-between">
+
+                    <div className="mt-3 text-xs text-ink-soft border-t border-line/60 pt-3 flex justify-between gap-4">
                       <span>Registered Category:</span>
-                      <span className="font-semibold text-ink">
+
+                      <span className="font-semibold text-ink text-right">
                         {form.category}
                       </span>
                     </div>
-                    <div className="mt-1 text-xs text-ink-soft flex justify-between">
-                      <span>GSTIN Provided:</span>
-                      <span className="font-mono text-ink">
-                        {form.gstNumber}
+
+                    <div className="mt-2 text-xs text-ink-soft flex justify-between">
+                      <span>Contact:</span>
+
+                      <span className="font-semibold text-ink">
+                        {form.contactPerson}
                       </span>
                     </div>
                   </div>
 
-                  {/* Action buttons */}
+                  {/* Buttons */}
                   <div className="flex flex-wrap items-center justify-center gap-4">
-                    <Button onClick={() => window.print()} variant="secondary">
+                    <Button
+                      onClick={() => window.print()}
+                      variant="secondary"
+                    >
                       Print / Save Receipt
                     </Button>
+
                     <Button onClick={() => go("home")}>
                       Return to Homepage <Arrow />
                     </Button>
@@ -820,7 +843,7 @@ export function Vendor({ go }) {
                   noValidate
                   className="p-6 sm:p-10 lg:p-12"
                 >
-                  {/* Honeypot field */}
+                  {/* Honeypot */}
                   <div
                     className="sr-only pointer-events-none"
                     aria-hidden="true"
@@ -829,46 +852,62 @@ export function Vendor({ go }) {
                       type="text"
                       name="website_url"
                       value={honeypot}
-                      onChange={(e) => setHoneypot(e.target.value)}
+                      onChange={(e) =>
+                        setHoneypot(e.target.value)
+                      }
                       tabIndex={-1}
                       autoComplete="off"
                     />
                   </div>
 
-                  {/* -------------------------------------------------------- */}
-                  {/* STEP 1: FIRM PROFILE & CONTACT KYC                        */}
-                  {/* -------------------------------------------------------- */}
+                  {/* ======================================================== */}
+                  {/* STEP 1                                                     */}
+                  {/* ======================================================== */}
+
                   {currentStep === 1 && (
                     <div className="animate-fadeIn space-y-7">
+
                       <div className="border-b border-line pb-4 flex items-center justify-between">
                         <div>
                           <span className="font-mono text-xs uppercase tracking-wider text-bronze font-semibold">
-                            Step 01 of 05
+                            Step 01 of 03
                           </span>
+
                           <h3
                             className="mt-1 text-2xl text-ink font-normal"
-                            style={{ fontFamily: "var(--font-display)" }}
+                            style={{
+                              fontFamily:
+                                "var(--font-display)",
+                            }}
                           >
-                            Party / Firm Information
+                            Business &amp; Contact Information
                           </h3>
                         </div>
+
                         <span className="text-xs text-ink-soft hidden sm:block">
-                          * Indicates mandatory field
+                          * Mandatory field
                         </span>
                       </div>
 
-                      {/* Firm Type Selector */}
+                      {/* Firm Type */}
                       <div>
                         <label className="mb-2 block text-xs font-semibold uppercase tracking-wider text-ink">
-                          Type of Firm <span className="text-bronze">*</span>
+                          Type of Business{" "}
+                          <span className="text-bronze">
+                            *
+                          </span>
                         </label>
+
                         <div className="grid grid-cols-2 gap-2 sm:grid-cols-5">
                           {FIRM_TYPES.map((type) => (
                             <button
                               key={type}
                               type="button"
                               onClick={() =>
-                                setForm((prev) => ({ ...prev, firmType: type }))
+                                setForm((prev) => ({
+                                  ...prev,
+                                  firmType: type,
+                                }))
                               }
                               className={`rounded-none border px-3 py-2.5 text-xs font-medium transition-all ${
                                 form.firmType === type
@@ -882,15 +921,21 @@ export function Vendor({ go }) {
                         </div>
                       </div>
 
+                      {/* Business fields */}
                       <div className="grid gap-5 sm:grid-cols-2">
-                        <Field label="Party Name (Legal Entity Name)" required>
+
+                        <Field
+                          label="Business / Vendor Name"
+                          required
+                        >
                           <Input
                             name="partyName"
                             required
                             value={form.partyName}
                             onChange={handleInputChange}
-                            placeholder="e.g. Royal Fresh Produce LLP"
+                            placeholder="e.g. Royal Fresh Produce"
                           />
+
                           {errors.partyName && (
                             <p className="field-error mt-1 text-xs text-red-600 font-medium">
                               {errors.partyName}
@@ -898,22 +943,33 @@ export function Vendor({ go }) {
                           )}
                         </Field>
 
-                        <Field label="Primary Supply Category" required>
+                        <Field
+                          label="Primary Supply Category"
+                          required
+                        >
                           <Select
                             name="category"
                             required
                             value={form.category}
                             onChange={handleInputChange}
                           >
-                            <option value="" disabled>
+                            <option
+                              value=""
+                              disabled
+                            >
                               Select procurement category
                             </option>
-                            {VENDOR_CATS.map((c) => (
-                              <option key={c} value={c}>
-                                {c}
+
+                            {VENDOR_CATS.map((category) => (
+                              <option
+                                key={category}
+                                value={category}
+                              >
+                                {category}
                               </option>
                             ))}
                           </Select>
+
                           {errors.category && (
                             <p className="field-error mt-1 text-xs text-red-600 font-medium">
                               {errors.category}
@@ -921,14 +977,18 @@ export function Vendor({ go }) {
                           )}
                         </Field>
 
-                        <Field label="Contact Person" required>
+                        <Field
+                          label="Contact Person"
+                          required
+                        >
                           <Input
                             name="contactPerson"
                             required
                             value={form.contactPerson}
                             onChange={handleInputChange}
-                            placeholder="Full legal name"
+                            placeholder="Full name"
                           />
+
                           {errors.contactPerson && (
                             <p className="field-error mt-1 text-xs text-red-600 font-medium">
                               {errors.contactPerson}
@@ -936,18 +996,27 @@ export function Vendor({ go }) {
                           )}
                         </Field>
 
-                        <Field label="Designation / Role" required>
+                        <Field
+                          label="Designation / Role"
+                          required
+                        >
                           <Input
                             name="designation"
                             required
                             value={form.designation}
                             onChange={handleInputChange}
-                            placeholder="e.g. Managing Partner / Director"
+                            placeholder="e.g. Founder / Director"
                           />
+
+                          {errors.designation && (
+                            <p className="field-error mt-1 text-xs text-red-600 font-medium">
+                              {errors.designation}
+                            </p>
+                          )}
                         </Field>
 
                         <Field
-                          label="Primary Mobile / Phone No."
+                          label="Primary Mobile / Phone"
                           required
                           hint="10-digit registered number"
                         >
@@ -959,6 +1028,7 @@ export function Vendor({ go }) {
                             onChange={handleInputChange}
                             placeholder="+91 98200 12345"
                           />
+
                           {errors.phone && (
                             <p className="field-error mt-1 text-xs text-red-600 font-medium">
                               {errors.phone}
@@ -966,25 +1036,29 @@ export function Vendor({ go }) {
                           )}
                         </Field>
 
-                        <Field label="Alternate Phone No. (Optional)">
+                        <Field label="Alternate Phone (Optional)">
                           <Input
                             name="alternatePhone"
                             type="tel"
                             value={form.alternatePhone}
                             onChange={handleInputChange}
-                            placeholder="Office landline or alternate"
+                            placeholder="Alternate contact number"
                           />
                         </Field>
 
-                        <Field label="Corporate Email ID" required>
+                        <Field
+                          label="Email Address"
+                          required
+                        >
                           <Input
                             name="email"
                             type="email"
                             required
                             value={form.email}
                             onChange={handleInputChange}
-                            placeholder="procurement@vendorfirm.com"
+                            placeholder="hello@yourcompany.com"
                           />
+
                           {errors.email && (
                             <p className="field-error mt-1 text-xs text-red-600 font-medium">
                               {errors.email}
@@ -992,31 +1066,33 @@ export function Vendor({ go }) {
                           )}
                         </Field>
 
-                        <Field label="State" required>
-                          <Select
-                            name="state"
-                            required
-                            value={form.state}
+                        <Field label="Website (Optional)">
+                          <Input
+                            name="website"
+                            type="url"
+                            value={form.website}
                             onChange={handleInputChange}
-                          >
-                            {INDIAN_STATES.map((s) => (
-                              <option key={s} value={s}>
-                                {s}
-                              </option>
-                            ))}
-                          </Select>
+                            placeholder="https://yourcompany.com"
+                          />
                         </Field>
+
                       </div>
 
+                      {/* Address */}
                       <div className="grid gap-5 sm:grid-cols-2">
-                        <Field label="Address Line 1" required>
+
+                        <Field
+                          label="Address Line 1"
+                          required
+                        >
                           <Input
                             name="address1"
                             required
                             value={form.address1}
                             onChange={handleInputChange}
-                            placeholder="Unit, Building, Estate / Area"
+                            placeholder="Building, street, area"
                           />
+
                           {errors.address1 && (
                             <p className="field-error mt-1 text-xs text-red-600 font-medium">
                               {errors.address1}
@@ -1029,11 +1105,14 @@ export function Vendor({ go }) {
                             name="address2"
                             value={form.address2}
                             onChange={handleInputChange}
-                            placeholder="Landmark, Street, Industrial Area"
+                            placeholder="Landmark / locality"
                           />
                         </Field>
 
-                        <Field label="City" required>
+                        <Field
+                          label="City"
+                          required
+                        >
                           <Input
                             name="city"
                             required
@@ -1041,6 +1120,7 @@ export function Vendor({ go }) {
                             onChange={handleInputChange}
                             placeholder="e.g. Mumbai"
                           />
+
                           {errors.city && (
                             <p className="field-error mt-1 text-xs text-red-600 font-medium">
                               {errors.city}
@@ -1049,7 +1129,28 @@ export function Vendor({ go }) {
                         </Field>
 
                         <Field
-                          label="Pin Code"
+                          label="State"
+                          required
+                        >
+                          <Select
+                            name="state"
+                            required
+                            value={form.state}
+                            onChange={handleInputChange}
+                          >
+                            {INDIAN_STATES.map((state) => (
+                              <option
+                                key={state}
+                                value={state}
+                              >
+                                {state}
+                              </option>
+                            ))}
+                          </Select>
+                        </Field>
+
+                        <Field
+                          label="PIN Code"
                           required
                           hint="6-digit postal code"
                         >
@@ -1060,39 +1161,49 @@ export function Vendor({ go }) {
                             onChange={handleInputChange}
                             placeholder="e.g. 400013"
                           />
+
                           {errors.pinCode && (
                             <p className="field-error mt-1 text-xs text-red-600 font-medium">
                               {errors.pinCode}
                             </p>
                           )}
                         </Field>
+
                       </div>
                     </div>
                   )}
 
-                  {/* -------------------------------------------------------- */}
-                  {/* STEP 2: STATUTORY & TAX IDENTIFIERS                       */}
-                  {/* -------------------------------------------------------- */}
+                  {/* ======================================================== */}
+                  {/* STEP 2                                                     */}
+                  {/* ======================================================== */}
+
                   {currentStep === 2 && (
                     <div className="animate-fadeIn space-y-7">
+
                       <div className="border-b border-line pb-4 flex items-center justify-between">
                         <div>
                           <span className="font-mono text-xs uppercase tracking-wider text-bronze font-semibold">
-                            Step 02 of 05
+                            Step 02 of 03
                           </span>
+
                           <h3
                             className="mt-1 text-2xl text-ink font-normal"
-                            style={{ fontFamily: "var(--font-display)" }}
+                            style={{
+                              fontFamily:
+                                "var(--font-display)",
+                            }}
                           >
-                            Statutory &amp; Tax KYC
+                            Products &amp; Supply Details
                           </h3>
                         </div>
+
                         <span className="text-xs text-ink-soft hidden sm:block">
-                          Extracted from GST &amp; KYC sheets
+                          Tell us about your capabilities
                         </span>
                       </div>
 
                       <div className="rounded-none border border-line/80 bg-cream/50 p-4 text-xs text-ink-soft flex items-start gap-3">
+
                         <svg
                           className="h-4 w-4 shrink-0 text-forest mt-0.5"
                           fill="none"
@@ -1106,790 +1217,278 @@ export function Vendor({ go }) {
                             d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
                           />
                         </svg>
+
                         <span>
-                          All tax identification numbers are verified directly
-                          via the GSTN portal and TRACES before purchase orders
-                          are generated.
+                          Please provide practical information about
+                          your products, services, supply capacity,
+                          and service areas. No financial or identity
+                          documents are required.
                         </span>
                       </div>
 
                       <div className="grid gap-5 sm:grid-cols-2">
+
                         <Field
-                          label="PAN No. OF THE OWNER / FIRM"
+                          label="Years in Business"
+                          hint="Optional"
+                        >
+                          <Input
+                            name="yearsInBusiness"
+                            type="text"
+                            inputMode="numeric"
+                            value={form.yearsInBusiness}
+                            onChange={handleInputChange}
+                            placeholder="e.g. 8"
+                          />
+                        </Field>
+
+                        <Field
+                          label="Approximate Supply Capacity"
                           required
-                          hint="10-digit Permanent Account Number"
+                          hint="Daily / weekly / monthly"
                         >
                           <Input
-                            name="panNumber"
+                            name="supplyCapacity"
                             required
-                            value={form.panNumber}
+                            value={form.supplyCapacity}
                             onChange={handleInputChange}
-                            placeholder="e.g. ABCDE1234F"
-                            className="font-mono uppercase"
+                            placeholder="e.g. 500 kg per day"
                           />
-                          {errors.panNumber && (
+
+                          {errors.supplyCapacity && (
                             <p className="field-error mt-1 text-xs text-red-600 font-medium">
-                              {errors.panNumber}
+                              {errors.supplyCapacity}
                             </p>
                           )}
                         </Field>
 
-                        <Field
-                          label="GST CERTIFICATE (GSTIN Number)"
-                          required
-                          hint="15-character Goods & Services Tax ID"
-                        >
-                          <Input
-                            name="gstNumber"
-                            required
-                            value={form.gstNumber}
-                            onChange={handleInputChange}
-                            placeholder="e.g. 27ABCDE1234F1Z5"
-                            className="font-mono uppercase"
-                          />
-                          {errors.gstNumber && (
-                            <p className="field-error mt-1 text-xs text-red-600 font-medium">
-                              {errors.gstNumber}
-                            </p>
-                          )}
-                        </Field>
-
-                        <Field
-                          label="Aadhaar Number of the Owner (Proprietor / Key Partner)"
-                          hint="12 digits — required for proprietorship firms"
-                        >
-                          <Input
-                            name="aadhaarNumber"
-                            value={form.aadhaarNumber}
-                            onChange={handleInputChange}
-                            placeholder="e.g. 123456789012"
-                            className="font-mono"
-                          />
-                          {errors.aadhaarNumber && (
-                            <p className="field-error mt-1 text-xs text-red-600 font-medium">
-                              {errors.aadhaarNumber}
-                            </p>
-                          )}
-                        </Field>
-
-                        <Field
-                          label="FSSAI LICENSE"
-                          hint="14 digits — mandatory for Food, Dairy, Bakery & Fresh Produce"
-                        >
-                          <Input
-                            name="fssaiNumber"
-                            value={form.fssaiNumber}
-                            onChange={handleInputChange}
-                            placeholder="e.g. 11520000000000"
-                            className="font-mono"
-                          />
-                          {errors.fssaiNumber && (
-                            <p className="field-error mt-1 text-xs text-red-600 font-medium">
-                              {errors.fssaiNumber}
-                            </p>
-                          )}
-                        </Field>
-
-                        <Field
-                          label="HSN / SAC Code for Product / Service"
-                          hint="Primary 4 to 8 digit tariff code"
-                        >
-                          <Input
-                            name="hsnCode"
-                            value={form.hsnCode}
-                            onChange={handleInputChange}
-                            placeholder="e.g. 0401 (Dairy), 2106 (Food Prep), 0709"
-                          />
-                        </Field>
-
-                        <Field label="Secondary / Additional GSTIN (Optional)">
-                          <Input
-                            name="additionalGstNumber"
-                            value={form.additionalGstNumber}
-                            onChange={handleInputChange}
-                            placeholder="Additional state registration if applicable"
-                            className="font-mono uppercase"
-                          />
-                        </Field>
                       </div>
 
-                      <Field label="Product / Service Catalogue Summary">
+                      <Field
+                        label="Products / Services You Offer"
+                        required
+                        hint="Mention your main products, services, brands or categories"
+                      >
                         <Textarea
                           name="productDescription"
+                          required
                           value={form.productDescription}
                           onChange={handleInputChange}
-                          rows={3}
-                          placeholder="List specific brands, key SKUs, daily delivery capacity, or pack sizes."
+                          rows={5}
+                          placeholder="Tell us about the products or services you can supply..."
                         />
-                      </Field>
-                    </div>
-                  )}
 
-                  {/* -------------------------------------------------------- */}
-                  {/* STEP 3: BANK & REMITTANCE KYC                             */}
-                  {/* -------------------------------------------------------- */}
-                  {currentStep === 3 && (
-                    <div className="animate-fadeIn space-y-7">
-                      <div className="border-b border-line pb-4 flex items-center justify-between">
-                        <div>
-                          <span className="font-mono text-xs uppercase tracking-wider text-bronze font-semibold">
-                            Step 03 of 05
-                          </span>
-                          <h3
-                            className="mt-1 text-2xl text-ink font-normal"
-                            style={{ fontFamily: "var(--font-display)" }}
-                          >
-                            Bank Remittance Details
-                          </h3>
-                        </div>
-                        <span className="text-xs text-ink-soft hidden sm:block">
-                          Direct NEFT / RTGS Settlement
-                        </span>
-                      </div>
-
-                      <div className="rounded-none border border-line bg-cream/40 p-4 text-xs text-ink-soft">
-                        <span className="font-semibold text-ink">
-                          Remittance Policy:
-                        </span>{" "}
-                        The bank account name must exactly match the registered
-                        Legal Entity / Party Name provided in Step 1.
-                      </div>
-
-                      <div className="grid gap-5 sm:grid-cols-2">
-                        <Field label="Name of the Bank" required>
-                          <Select
-                            name="bankName"
-                            required
-                            value={form.bankName}
-                            onChange={handleInputChange}
-                          >
-                            {MAJOR_BANKS.map((b) => (
-                              <option key={b} value={b}>
-                                {b}
-                              </option>
-                            ))}
-                          </Select>
-                        </Field>
-
-                        {form.bankName === "Other Bank" && (
-                          <Field label="Specify Bank Name" required>
-                            <Input
-                              name="customBankName"
-                              required
-                              value={form.customBankName}
-                              onChange={handleInputChange}
-                              placeholder="Enter bank name"
-                            />
-                            {errors.customBankName && (
-                              <p className="field-error mt-1 text-xs text-red-600 font-medium">
-                                {errors.customBankName}
-                              </p>
-                            )}
-                          </Field>
-                        )}
-
-                        <Field label="Name of the Branch" required>
-                          <Input
-                            name="branchName"
-                            required
-                            value={form.branchName}
-                            onChange={handleInputChange}
-                            placeholder="e.g. Fort Branch, Mumbai"
-                          />
-                          {errors.branchName && (
-                            <p className="field-error mt-1 text-xs text-red-600 font-medium">
-                              {errors.branchName}
-                            </p>
-                          )}
-                        </Field>
-
-                        <div className="sm:col-span-2">
-                          <label className="mb-2 block text-xs font-semibold uppercase tracking-wider text-ink">
-                            Account Type <span className="text-bronze">*</span>
-                          </label>
-                          <div className="flex gap-4">
-                            {["Current", "Savings"].map((type) => (
-                              <label
-                                key={type}
-                                className={`flex flex-1 cursor-pointer items-center justify-center rounded-none border px-4 py-3 text-xs font-medium transition-all ${
-                                  form.accountType === type
-                                    ? "border-forest bg-forest text-paper shadow-xs"
-                                    : "border-line bg-paper text-ink hover:border-forest/50"
-                                }`}
-                              >
-                                <input
-                                  type="radio"
-                                  name="accountType"
-                                  value={type}
-                                  checked={form.accountType === type}
-                                  onChange={() =>
-                                    setForm((prev) => ({
-                                      ...prev,
-                                      accountType: type,
-                                    }))
-                                  }
-                                  className="sr-only"
-                                />
-                                {type} Account
-                              </label>
-                            ))}
-                          </div>
-                        </div>
-
-                        <Field label="Account Number" required>
-                          <Input
-                            name="accountNumber"
-                            type="password"
-                            required
-                            value={form.accountNumber}
-                            onChange={handleInputChange}
-                            placeholder="Enter account number"
-                            className="font-mono"
-                          />
-                          {errors.accountNumber && (
-                            <p className="field-error mt-1 text-xs text-red-600 font-medium">
-                              {errors.accountNumber}
-                            </p>
-                          )}
-                        </Field>
-
-                        <Field label="Confirm Account Number" required>
-                          <Input
-                            name="confirmAccountNumber"
-                            required
-                            value={form.confirmAccountNumber}
-                            onChange={handleInputChange}
-                            placeholder="Re-enter account number"
-                            className="font-mono"
-                          />
-                          {errors.confirmAccountNumber && (
-                            <p className="field-error mt-1 text-xs text-red-600 font-medium">
-                              {errors.confirmAccountNumber}
-                            </p>
-                          )}
-                        </Field>
-
-                        <Field
-                          label="IFSC Code (NEFT / RTGS)"
-                          required
-                          hint="11-character alphanumeric code"
-                        >
-                          <Input
-                            name="ifscCode"
-                            required
-                            value={form.ifscCode}
-                            onChange={handleInputChange}
-                            placeholder="e.g. HDFC0000060"
-                            className="font-mono uppercase"
-                          />
-                          {errors.ifscCode && (
-                            <p className="field-error mt-1 text-xs text-red-600 font-medium">
-                              {errors.ifscCode}
-                            </p>
-                          )}
-                        </Field>
-                      </div>
-                    </div>
-                  )}
-
-                  {/* -------------------------------------------------------- */}
-                  {/* STEP 4: STATUTORY DECLARATIONS & UPLOADS                  */}
-                  {/* -------------------------------------------------------- */}
-                  {currentStep === 4 && (
-                    <div className="animate-fadeIn space-y-8">
-                      <div className="border-b border-line pb-4 flex items-center justify-between">
-                        <div>
-                          <span className="font-mono text-xs uppercase tracking-wider text-bronze font-semibold">
-                            Step 04 of 05
-                          </span>
-                          <h3
-                            className="mt-1 text-2xl text-ink font-normal"
-                            style={{ fontFamily: "var(--font-display)" }}
-                          >
-                            Compliance Undertakings &amp; Documents
-                          </h3>
-                        </div>
-                        <span className="text-xs text-ink-soft hidden sm:block">
-                          E-Invoicing &amp; Sec 206AB Declarations
-                        </span>
-                      </div>
-
-                      {/* E-Invoicing Declaration Accordion / Box */}
-                      <div className="rounded-none border border-line bg-cream/30 p-5 space-y-4">
-                        <div className="flex items-center justify-between">
-                          <span className="text-xs font-semibold uppercase tracking-wider text-forest">
-                            1. E-Invoicing Declaration under GST Act
-                          </span>
-                          <span className="font-mono text-[11px] text-ink-soft">
-                            Rule 48(4)
-                          </span>
-                        </div>
-                        <p className="text-xs leading-relaxed text-ink-soft">
-                          I,{" "}
-                          <span className="font-semibold text-ink">
-                            {form.contactPerson || "Authorized Signatory"}
-                          </span>
-                          , being authorized signatory of{" "}
-                          <span className="font-semibold text-ink">
-                            {form.partyName || "the Vendor"}
-                          </span>{" "}
-                          holding GSTIN{" "}
-                          <span className="font-mono text-ink">
-                            {form.gstNumber || "pending"}
-                          </span>
-                          , declare whether e-invoicing provisions are
-                          applicable on us.
-                        </p>
-
-                        <div className="grid grid-cols-2 gap-3 max-w-sm">
-                          <button
-                            type="button"
-                            onClick={() =>
-                              setForm((prev) => ({
-                                ...prev,
-                                einvoicingApplicable: "not_applicable",
-                              }))
-                            }
-                            className={`rounded-none border px-4 py-2.5 text-xs font-medium transition-all ${
-                              form.einvoicingApplicable === "not_applicable"
-                                ? "border-forest bg-forest text-paper shadow-xs"
-                                : "border-line bg-paper text-ink hover:border-forest/50"
-                            }`}
-                          >
-                            Not Applicable
-                          </button>
-                          <button
-                            type="button"
-                            onClick={() =>
-                              setForm((prev) => ({
-                                ...prev,
-                                einvoicingApplicable: "applicable",
-                              }))
-                            }
-                            className={`rounded-none border px-4 py-2.5 text-xs font-medium transition-all ${
-                              form.einvoicingApplicable === "applicable"
-                                ? "border-forest bg-forest text-paper shadow-xs"
-                                : "border-line bg-paper text-ink hover:border-forest/50"
-                            }`}
-                          >
-                            Applicable
-                          </button>
-                        </div>
-                        {errors.einvoicingApplicable && (
-                          <p className="field-error text-xs text-red-600 font-medium">
-                            {errors.einvoicingApplicable}
+                        {errors.productDescription && (
+                          <p className="field-error mt-1 text-xs text-red-600 font-medium">
+                            {errors.productDescription}
                           </p>
                         )}
-                      </div>
+                      </Field>
 
-                      {/* Section 206AB Declaration */}
-                      <div className="rounded-none border border-line bg-cream/30 p-5 space-y-4">
-                        <div className="flex items-center justify-between">
-                          <span className="text-xs font-semibold uppercase tracking-wider text-forest">
-                            2. Declaration for Section 206AB (Income Tax Act,
-                            1961)
-                          </span>
-                          <span className="font-mono text-[11px] text-ink-soft">
-                            TDS Compliance
-                          </span>
-                        </div>
-                        <p className="text-xs leading-relaxed text-ink-soft">
-                          Confirmation regarding filing returns of income for
-                          the last two financial years to avoid higher rate of
-                          TDS under Section 206AB.
-                        </p>
+                      <Field
+                        label="Delivery / Service Areas"
+                        required
+                        hint="Cities, regions or locations you currently serve"
+                      >
+                        <Textarea
+                          name="deliveryAreas"
+                          required
+                          value={form.deliveryAreas}
+                          onChange={handleInputChange}
+                          rows={3}
+                          placeholder="e.g. Mumbai, Thane, Navi Mumbai, Pune..."
+                        />
 
-                        <div className="grid gap-4 sm:grid-cols-2">
-                          <div className="rounded-none border border-line/70 bg-paper p-3 space-y-2">
-                            <span className="text-[11px] font-semibold text-ink">
-                              AY 2023-24 (FY 2022-23)
-                            </span>
-                            <Input
-                              name="itrAck1"
-                              value={form.itrAck1}
-                              onChange={handleInputChange}
-                              placeholder="ITR Ack Number"
-                              className="text-xs"
-                            />
-                            <Input
-                              name="itrDate1"
-                              type="date"
-                              value={form.itrDate1}
-                              onChange={handleInputChange}
-                              className="text-xs"
-                            />
-                          </div>
+                        {errors.deliveryAreas && (
+                          <p className="field-error mt-1 text-xs text-red-600 font-medium">
+                            {errors.deliveryAreas}
+                          </p>
+                        )}
+                      </Field>
 
-                          <div className="rounded-none border border-line/70 bg-paper p-3 space-y-2">
-                            <span className="text-[11px] font-semibold text-ink">
-                              AY 2024-25 (FY 2023-24)
-                            </span>
-                            <Input
-                              name="itrAck2"
-                              value={form.itrAck2}
-                              onChange={handleInputChange}
-                              placeholder="ITR Ack Number"
-                              className="text-xs"
-                            />
-                            <Input
-                              name="itrDate2"
-                              type="date"
-                              value={form.itrDate2}
-                              onChange={handleInputChange}
-                              className="text-xs"
-                            />
-                          </div>
-                        </div>
-                      </div>
+                      <Field
+                        label="Additional Information"
+                        hint="Optional"
+                      >
+                        <Textarea
+                          name="additionalInformation"
+                          value={form.additionalInformation}
+                          onChange={handleInputChange}
+                          rows={4}
+                          placeholder="Anything else you would like our procurement team to know..."
+                        />
+                      </Field>
 
-                      {/* Document Uploads Checklist (From Excel Note 1) */}
-                      <div>
-                        <h4 className="text-xs font-semibold uppercase tracking-wider text-ink mb-1">
-                          3. Required KYC Documents Checklist (Note 1 in Form)
-                        </h4>
-                        <p className="text-xs text-ink-soft mb-4">
-                          Upload clear scanned PDFs or high-resolution images
-                          (max 8MB each).
-                        </p>
-
-                        <div className="grid gap-4 sm:grid-cols-2">
-                          {/* PAN Card */}
-                          <div className="rounded-none border border-dashed border-line bg-cream/20 p-4 transition-colors hover:border-forest">
-                            <div className="flex items-center justify-between mb-2">
-                              <span className="text-xs font-semibold text-ink">
-                                Scanned copy of PAN Card{" "}
-                                <span className="text-bronze">*</span>
-                              </span>
-                              {docs.pan.uploaded && (
-                                <span className="text-[11px] text-forest font-semibold flex items-center gap-1">
-                                  ✓ Uploaded
-                                </span>
-                              )}
-                            </div>
-                            <input
-                              type="file"
-                              accept=".pdf,.jpg,.jpeg,.png"
-                              id="upload-pan"
-                              className="sr-only"
-                              onChange={(e) =>
-                                handleFileUpload(
-                                  "pan",
-                                  e.target.files?.[0] || null,
-                                )
-                              }
-                            />
-                            <label
-                              htmlFor="upload-pan"
-                              className="cursor-pointer flex items-center justify-between rounded-none border border-line bg-paper px-3 py-2 text-xs text-ink hover:border-forest"
-                            >
-                              <span className="truncate max-w-[180px]">
-                                {docs.pan.name || "Choose PAN File (PDF/Image)"}
-                              </span>
-                              <span className="text-forest font-semibold">
-                                Browse
-                              </span>
-                            </label>
-                            {docs.pan.size && (
-                              <div className="mt-1 text-[10px] text-ink-soft">
-                                Size: {docs.pan.size}
-                              </div>
-                            )}
-                            {errors.pan && (
-                              <p className="field-error mt-1 text-xs text-red-600 font-medium">
-                                {errors.pan}
-                              </p>
-                            )}
-                          </div>
-
-                          {/* GST Certificate */}
-                          <div className="rounded-none border border-dashed border-line bg-cream/20 p-4 transition-colors hover:border-forest">
-                            <div className="flex items-center justify-between mb-2">
-                              <span className="text-xs font-semibold text-ink">
-                                GST Registration Certificate{" "}
-                                <span className="text-bronze">*</span>
-                              </span>
-                              {docs.gst.uploaded && (
-                                <span className="text-[11px] text-forest font-semibold flex items-center gap-1">
-                                  ✓ Uploaded
-                                </span>
-                              )}
-                            </div>
-                            <input
-                              type="file"
-                              accept=".pdf,.jpg,.jpeg,.png"
-                              id="upload-gst"
-                              className="sr-only"
-                              onChange={(e) =>
-                                handleFileUpload(
-                                  "gst",
-                                  e.target.files?.[0] || null,
-                                )
-                              }
-                            />
-                            <label
-                              htmlFor="upload-gst"
-                              className="cursor-pointer flex items-center justify-between rounded-none border border-line bg-paper px-3 py-2 text-xs text-ink hover:border-forest"
-                            >
-                              <span className="truncate max-w-[180px]">
-                                {docs.gst.name || "Choose GST File (PDF/Image)"}
-                              </span>
-                              <span className="text-forest font-semibold">
-                                Browse
-                              </span>
-                            </label>
-                            {docs.gst.size && (
-                              <div className="mt-1 text-[10px] text-ink-soft">
-                                Size: {docs.gst.size}
-                              </div>
-                            )}
-                            {errors.gst && (
-                              <p className="field-error mt-1 text-xs text-red-600 font-medium">
-                                {errors.gst}
-                              </p>
-                            )}
-                          </div>
-
-                          {/* Cancelled Cheque */}
-                          <div className="rounded-none border border-dashed border-line bg-cream/20 p-4 transition-colors hover:border-forest">
-                            <div className="flex items-center justify-between mb-2">
-                              <span className="text-xs font-semibold text-ink">
-                                Scanned Cancelled Cheque{" "}
-                                <span className="text-bronze">*</span>
-                              </span>
-                              {docs.cheque.uploaded && (
-                                <span className="text-[11px] text-forest font-semibold flex items-center gap-1">
-                                  ✓ Uploaded
-                                </span>
-                              )}
-                            </div>
-                            <input
-                              type="file"
-                              accept=".pdf,.jpg,.jpeg,.png"
-                              id="upload-cheque"
-                              className="sr-only"
-                              onChange={(e) =>
-                                handleFileUpload(
-                                  "cheque",
-                                  e.target.files?.[0] || null,
-                                )
-                              }
-                            />
-                            <label
-                              htmlFor="upload-cheque"
-                              className="cursor-pointer flex items-center justify-between rounded-none border border-line bg-paper px-3 py-2 text-xs text-ink hover:border-forest"
-                            >
-                              <span className="truncate max-w-[180px]">
-                                {docs.cheque.name ||
-                                  "Choose Cheque File (PDF/Image)"}
-                              </span>
-                              <span className="text-forest font-semibold">
-                                Browse
-                              </span>
-                            </label>
-                            {docs.cheque.size && (
-                              <div className="mt-1 text-[10px] text-ink-soft">
-                                Size: {docs.cheque.size}
-                              </div>
-                            )}
-                            {errors.cheque && (
-                              <p className="field-error mt-1 text-xs text-red-600 font-medium">
-                                {errors.cheque}
-                              </p>
-                            )}
-                          </div>
-
-                          {/* FSSAI / Signed Form */}
-                          <div className="rounded-none border border-dashed border-line bg-cream/20 p-4 transition-colors hover:border-forest">
-                            <div className="flex items-center justify-between mb-2">
-                              <span className="text-xs font-semibold text-ink">
-                                FSSAI Certificate or Registration Form
-                              </span>
-                              {docs.fssai.uploaded && (
-                                <span className="text-[11px] text-forest font-semibold flex items-center gap-1">
-                                  ✓ Uploaded
-                                </span>
-                              )}
-                            </div>
-                            <input
-                              type="file"
-                              accept=".pdf,.jpg,.jpeg,.png"
-                              id="upload-fssai"
-                              className="sr-only"
-                              onChange={(e) =>
-                                handleFileUpload(
-                                  "fssai",
-                                  e.target.files?.[0] || null,
-                                )
-                              }
-                            />
-                            <label
-                              htmlFor="upload-fssai"
-                              className="cursor-pointer flex items-center justify-between rounded-none border border-line bg-paper px-3 py-2 text-xs text-ink hover:border-forest"
-                            >
-                              <span className="truncate max-w-[180px]">
-                                {docs.fssai.name ||
-                                  "Optional / FSSAI (PDF/Image)"}
-                              </span>
-                              <span className="text-forest font-semibold">
-                                Browse
-                              </span>
-                            </label>
-                            {docs.fssai.size && (
-                              <div className="mt-1 text-[10px] text-ink-soft">
-                                Size: {docs.fssai.size}
-                              </div>
-                            )}
-                          </div>
-                        </div>
-                      </div>
-
-                      {/* Signatory Details */}
-                      <div className="grid gap-5 sm:grid-cols-2 pt-4 border-t border-line">
-                        <Field label="Authorized Signatory Name" required>
-                          <Input
-                            name="signatoryName"
-                            required
-                            value={form.signatoryName}
-                            onChange={handleInputChange}
-                            placeholder="Legal signatory"
-                          />
-                          {errors.signatoryName && (
-                            <p className="field-error mt-1 text-xs text-red-600 font-medium">
-                              {errors.signatoryName}
-                            </p>
-                          )}
-                        </Field>
-
-                        <Field label="Signatory Designation" required>
-                          <Input
-                            name="signatoryDesignation"
-                            required
-                            value={
-                              form.signatoryDesignation || form.designation
-                            }
-                            onChange={handleInputChange}
-                            placeholder="e.g. Partner / Director"
-                          />
-                        </Field>
-                      </div>
                     </div>
                   )}
 
-                  {/* -------------------------------------------------------- */}
-                  {/* STEP 5: REVIEW & DIGITAL SIGN-OFF                         */}
-                  {/* -------------------------------------------------------- */}
-                  {currentStep === 5 && (
+                  {/* ======================================================== */}
+                  {/* STEP 3                                                     */}
+                  {/* ======================================================== */}
+
+                  {currentStep === 3 && (
                     <div className="animate-fadeIn space-y-7">
+
                       <div className="border-b border-line pb-4 flex items-center justify-between">
                         <div>
                           <span className="font-mono text-xs uppercase tracking-wider text-bronze font-semibold">
-                            Step 05 of 05
+                            Step 03 of 03
                           </span>
+
                           <h3
                             className="mt-1 text-2xl text-ink font-normal"
-                            style={{ fontFamily: "var(--font-display)" }}
+                            style={{
+                              fontFamily:
+                                "var(--font-display)",
+                            }}
                           >
-                            Review &amp; Digital Authorization
+                            Review &amp; Submit
                           </h3>
                         </div>
+
                         <span className="text-xs text-ink-soft hidden sm:block">
-                          Final Confirmation
+                          Final confirmation
                         </span>
                       </div>
 
-                      {/* KYC Summary Card */}
+                      {/* Business Summary */}
                       <div className="rounded-none border border-line bg-cream/40 p-6 space-y-5">
-                        <div className="flex items-center justify-between border-b border-line/60 pb-3">
+
+                        <div className="flex items-start justify-between border-b border-line/60 pb-4 gap-4">
+
                           <div>
                             <span className="text-xs font-mono uppercase tracking-wider text-bronze">
-                              Entity
+                              Business
                             </span>
-                            <h4 className="text-lg font-semibold text-ink">
-                              {form.partyName || "Not Provided"}
+
+                            <h4 className="text-xl font-semibold text-ink">
+                              {form.partyName ||
+                                "Not Provided"}
                             </h4>
-                            <p className="text-xs text-ink-soft">
-                              {form.firmType} &bull; {form.category}
+
+                            <p className="text-xs text-ink-soft mt-1">
+                              {form.firmType}
+                              {" • "}
+                              {form.category ||
+                                "Category not selected"}
                             </p>
                           </div>
+
                           <button
                             type="button"
-                            onClick={() => setCurrentStep(1)}
+                            onClick={() =>
+                              setCurrentStep(1)
+                            }
                             className="text-xs font-semibold text-forest hover:underline"
                           >
-                            Edit Profile
+                            Edit
                           </button>
+
                         </div>
 
-                        <div className="grid gap-4 sm:grid-cols-3 text-xs">
+                        <div className="grid gap-5 sm:grid-cols-2 text-xs">
+
                           <div>
                             <span className="text-ink-soft block">
-                              PAN Number:
+                              Contact Person
                             </span>
-                            <span className="font-mono font-semibold text-ink">
-                              {form.panNumber}
-                            </span>
-                          </div>
-                          <div>
-                            <span className="text-ink-soft block">GSTIN:</span>
-                            <span className="font-mono font-semibold text-ink">
-                              {form.gstNumber}
-                            </span>
-                          </div>
-                          <div>
-                            <span className="text-ink-soft block">
-                              FSSAI License:
-                            </span>
-                            <span className="font-mono font-semibold text-ink">
-                              {form.fssaiNumber || "N/A"}
-                            </span>
-                          </div>
-                          <div>
-                            <span className="text-ink-soft block">Bank:</span>
+
                             <span className="font-semibold text-ink">
-                              {form.bankName === "Other Bank"
-                                ? form.customBankName
-                                : form.bankName}
+                              {form.contactPerson ||
+                                "Not Provided"}
                             </span>
                           </div>
+
                           <div>
                             <span className="text-ink-soft block">
-                              IFSC Code:
+                              Designation
                             </span>
-                            <span className="font-mono font-semibold text-ink">
-                              {form.ifscCode}
+
+                            <span className="font-semibold text-ink">
+                              {form.designation ||
+                                "Not Provided"}
                             </span>
                           </div>
+
                           <div>
                             <span className="text-ink-soft block">
-                              Account:
+                              Phone
                             </span>
-                            <span className="font-mono font-semibold text-ink">
-                              •••• {form.accountNumber.slice(-4)} (
-                              {form.accountType})
+
+                            <span className="font-semibold text-ink">
+                              {form.phone ||
+                                "Not Provided"}
                             </span>
                           </div>
+
+                          <div>
+                            <span className="text-ink-soft block">
+                              Email
+                            </span>
+
+                            <span className="font-semibold text-ink break-all">
+                              {form.email ||
+                                "Not Provided"}
+                            </span>
+                          </div>
+
+                          <div>
+                            <span className="text-ink-soft block">
+                              Location
+                            </span>
+
+                            <span className="font-semibold text-ink">
+                              {form.city},{" "}
+                              {form.state}
+                            </span>
+                          </div>
+
+                          <div>
+                            <span className="text-ink-soft block">
+                              Supply Areas
+                            </span>
+
+                            <span className="font-semibold text-ink">
+                              {form.deliveryAreas ||
+                                "Not Provided"}
+                            </span>
+                          </div>
+
                         </div>
 
-                        <div className="pt-3 border-t border-line/60 flex items-center justify-between text-xs">
-                          <span className="text-ink-soft">
-                            Uploaded KYC Verification Documents:
+                        <div className="border-t border-line/60 pt-4">
+
+                          <span className="text-ink-soft block text-xs">
+                            Products / Services
                           </span>
-                          <span className="font-semibold text-forest">
-                            {
-                              [
-                                docs.pan.uploaded,
-                                docs.gst.uploaded,
-                                docs.cheque.uploaded,
-                              ].filter(Boolean).length
-                            }{" "}
-                            of 3 Mandatory Attached
-                          </span>
+
+                          <p className="mt-1 text-sm leading-relaxed text-ink">
+                            {form.productDescription ||
+                              "Not Provided"}
+                          </p>
+
                         </div>
+
+                        <div className="border-t border-line/60 pt-4">
+
+                          <span className="text-ink-soft block text-xs">
+                            Supply Capacity
+                          </span>
+
+                          <p className="mt-1 text-sm font-semibold text-ink">
+                            {form.supplyCapacity ||
+                              "Not Provided"}
+                          </p>
+
+                        </div>
+
                       </div>
 
-                      {/* Statutory Undertaking Checkbox */}
+                      {/* Confirmation */}
                       <div className="rounded-none border border-line bg-paper p-5 space-y-4">
+
                         <label className="flex items-start gap-3 cursor-pointer">
+
                           <input
                             type="checkbox"
                             name="finalConsent"
@@ -1897,42 +1496,100 @@ export function Vendor({ go }) {
                             onChange={(e) => {
                               setForm((prev) => ({
                                 ...prev,
-                                finalConsent: e.target.checked,
+                                finalConsent:
+                                  e.target.checked,
                               }))
-                              if (errors.finalConsent) {
+
+                              if (
+                                errors.finalConsent
+                              ) {
                                 setErrors((prev) => {
-                                  const next = { ...prev }
+                                  const next = {
+                                    ...prev,
+                                  }
+
                                   delete next.finalConsent
+
                                   return next
                                 })
                               }
                             }}
                             className="mt-1 h-4 w-4 rounded-none border-line text-forest focus:ring-forest"
                           />
+
                           <span className="text-xs leading-relaxed text-ink-soft">
+
                             <strong className="text-ink">
-                              Authorised Signatory Undertaking:
+                              Confirmation:
                             </strong>{" "}
-                            I hereby certify that the information, bank
-                            credentials, and tax declarations furnished above
-                            are true, complete, and legally binding under
-                            applicable GST, FSSAI, and Section 206AB Income Tax
-                            statutes. I authorize Leo Hospitality &amp; Ventures
-                            LLP to verify these records for vendor code creation
-                            and automated payment remittance.
+
+                            I confirm that the information provided
+                            in this vendor registration form is
+                            accurate and complete to the best of my
+                            knowledge. I understand that this
+                            registration is an initial business
+                            enquiry and does not guarantee vendor
+                            empanelment or a purchase order.
+
                           </span>
+
                         </label>
+
                         {errors.finalConsent && (
                           <p className="field-error text-xs text-red-600 font-medium pl-7">
                             {errors.finalConsent}
                           </p>
                         )}
+
                       </div>
+
+                      {/* Privacy note */}
+                      <div className="rounded-none border border-forest/15 bg-forest/[0.04] p-5">
+
+                        <div className="flex items-start gap-3">
+
+                          <svg
+                            className="h-5 w-5 shrink-0 text-forest mt-0.5"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke="currentColor"
+                          >
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              strokeWidth={1.7}
+                              d="M12 9v4m0 4h.01M10.29 3.86l-7.1 12.28A2 2 0 004.93 19h14.14a2 2 0 001.73-2.86L13.7 3.86a2 2 0 00-3.41 0z"
+                            />
+                          </svg>
+
+                          <div>
+
+                            <p className="text-xs font-semibold text-ink">
+                              Please do not submit sensitive
+                              documents.
+                            </p>
+
+                            <p className="mt-1 text-xs leading-relaxed text-ink-soft">
+                              This public registration form does not
+                              request PAN, Aadhaar, bank account
+                              details, tax documents, identity
+                              documents, cancelled cheques, or other
+                              confidential legal documents.
+                            </p>
+
+                          </div>
+                        </div>
+                      </div>
+
                     </div>
                   )}
 
-                  {/* NAVIGATION CONTROLS */}
+                  {/* ======================================================== */}
+                  {/* NAVIGATION                                                 */}
+                  {/* ======================================================== */}
+
                   <div className="mt-10 flex items-center justify-between border-t border-line pt-6">
+
                     {currentStep > 1 ? (
                       <Button
                         type="button"
@@ -1946,21 +1603,27 @@ export function Vendor({ go }) {
                       <div />
                     )}
 
-                    {currentStep < 5 ? (
+                    {currentStep < 3 ? (
                       <Button
                         type="button"
                         onClick={handleNextStep}
                         className="group"
                       >
-                        Turn Page to Folio 0{currentStep + 1}
+                        Continue to Step{" "}
+                        {currentStep + 1}
+
                         <span className="inline-block transition-transform duration-300 group-hover:translate-x-1.5 ml-1 font-sans">
                           📖 →
                         </span>
                       </Button>
                     ) : (
-                      <Button type="submit" disabled={isSubmitting}>
+                      <Button
+                        type="submit"
+                        disabled={isSubmitting}
+                      >
                         {isSubmitting ? (
                           <span className="flex items-center gap-2">
+
                             <svg
                               className="animate-spin h-4 w-4 text-paper"
                               fill="none"
@@ -1974,85 +1637,132 @@ export function Vendor({ go }) {
                                 stroke="currentColor"
                                 strokeWidth="4"
                               />
+
                               <path
                                 className="opacity-75"
                                 fill="currentColor"
                                 d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
                               />
                             </svg>
-                            Verifying &amp; Registering KYC...
+
+                            Submitting Registration...
                           </span>
                         ) : (
                           <>
-                            Transmit Official KYC Form <Arrow />
+                            Submit Vendor Registration{" "}
+                            <Arrow />
                           </>
                         )}
                       </Button>
                     )}
+
                   </div>
+
                 </form>
               )}
             </div>
           </div>
 
-          {/* Trust and Why Partner Banner */}
+          {/* ---------------------------------------------------------------- */}
+          {/* BOTTOM INFORMATION                                               */}
+          {/* ---------------------------------------------------------------- */}
+
           <div className="mt-12 grid gap-6 md:grid-cols-2">
+
+            {/* Empanelment */}
             <div className="rounded-none border border-line bg-forest-deep p-8 text-paper">
-              <h3 className="font-display text-2xl text-bronze">
+
+              <span className="font-mono text-[11px] uppercase tracking-wider text-bronze">
+                Working With Us
+              </span>
+
+              <h3 className="mt-1 font-display text-2xl text-bronze">
                 Empanelment Standards
               </h3>
+
               <p className="mt-2 text-xs text-paper/70 leading-relaxed">
-                All submitted vendor dossiers are processed by our internal
-                compliance team within 3 to 5 business days. Approved partners
-                receive vendor codes for centralized ERP invoicing.
+                Vendor profiles are reviewed by our procurement
+                team based on category relevance, product quality,
+                service capability, supply capacity, and business
+                requirements.
               </p>
+
               <ul className="mt-5 space-y-2.5 text-xs text-paper/90">
+
                 <li className="flex items-center gap-2">
-                  <span className="text-bronze">✓</span> Daily purchase orders
-                  with direct kitchen tracking
+                  <span className="text-bronze">
+                    ✓
+                  </span>
+
+                  Reliable product and service quality
                 </li>
+
                 <li className="flex items-center gap-2">
-                  <span className="text-bronze">✓</span> Strict compliance with
-                  FSSAI hygiene standards
+                  <span className="text-bronze">
+                    ✓
+                  </span>
+
+                  Consistent supply and service capability
                 </li>
+
                 <li className="flex items-center gap-2">
-                  <span className="text-bronze">✓</span> Scheduled bi-weekly
-                  &amp; monthly NEFT remittance
+                  <span className="text-bronze">
+                    ✓
+                  </span>
+
+                  Responsive procurement coordination
                 </li>
+
               </ul>
             </div>
 
+            {/* Support */}
             <div className="rounded-none border border-line bg-paper p-8 flex flex-col justify-between">
+
               <div>
+
                 <span className="font-mono text-[11px] uppercase tracking-wider text-bronze">
                   Direct Assistance
                 </span>
+
                 <h3
                   className="mt-1 text-2xl text-ink"
-                  style={{ fontFamily: "var(--font-display)" }}
+                  style={{
+                    fontFamily:
+                      "var(--font-display)",
+                  }}
                 >
                   Vendor Desk Support
                 </h3>
+
                 <p className="mt-2 text-xs text-ink-soft leading-relaxed">
-                  Have questions regarding your GST filing, volume supply
-                  capabilities, or document requirements? Reach our vendor
+                  Have questions about becoming a vendor,
+                  procurement categories, supply capabilities,
+                  or the registration process? Reach our vendor
                   relations desk directly.
                 </p>
+
               </div>
+
               <div className="mt-6 flex flex-wrap items-center gap-4 text-xs font-semibold text-forest">
+
                 <a
                   href="mailto:connect@leohospitality.in"
                   className="inline-flex items-center gap-1.5 hover:underline"
                 >
-                  connect@leohospitality.in →
+                  support@leohospitality.in →
                 </a>
+
               </div>
+
             </div>
+
           </div>
+
         </div>
       </section>
     </>
   )
 }
 
-export default Vendor
+export default Vendor;

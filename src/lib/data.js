@@ -96,49 +96,47 @@ export const PROJECTS_DATA = [
   {
     number: "01",
     name: "Lord of the Drinks",
-    loc: "Mumbai",
+    loc: "Powai & Worli, Mumbai",
     type: "Restaurant & Bar",
+    period: "May 2019 – December 2025",
     img: IMG.lamps,
     description:
-      "Operated high-volume service corridors with rigorous cost management, setting new local benchmarks for beverage logistics and premium crowd handling.",
+      "Served as Hospitality Management Partner across the Powai and Worli locations, overseeing restaurant operations, workforce management, guest experience, SOP implementation, quality control, and day-to-day operational excellence.",
   },
+
   {
     number: "02",
     name: "Tea Villa Café",
-    loc: "Juhu & Malad",
-    type: "Café — Multi-outlet",
+    loc: "Juhu, Mumbai",
+    type: "Café Operations",
+    period: "October 2018 – December 2020",
     img: IMG.pieLatte,
     description:
-      "Standardised menu preparation timelines and service blueprints across multiple prime properties, boosting average customer ticket size by 24%.",
+      "Worked as the Hospitality Management Partner, overseeing daily operations, team management, service quality, and guest experience while supporting consistent and efficient café operations.",
   },
+
   {
     number: "03",
-    name: "M&S Food Factory",
-    loc: "Operations",
-    type: "Restaurant & Kitchen",
+    name: "M&S – The Food Factory Café",
+    loc: "Sangli, Maharashtra",
+    type: "Café & Restaurant",
+    period: "2017 – July 2020",
     img: IMG.woodTable,
     description:
-      "Designed back-of-house assembly layouts that expedited order dispatch during heavy peak dining hours while preserving strict culinary plating standards.",
+      "Founded and operated our own café, gaining hands-on experience across concept development, kitchen operations, staffing, customer service, marketing, and financial management.",
   },
+
   {
     number: "04",
-    name: "M&S Dessert Factory",
-    loc: "Operations",
-    type: "Dessert Concept",
-    img: IMG.souffle,
-    description:
-      "Introduced cold-chain inventory protocols and a signature pastry lineup that improved customer retention rates and minimized ingredient shrinkage.",
-  },
-  {
-    number: "05",
     name: "Belge Cakes",
-    loc: "Events",
-    type: "Event Catering & Retail",
+    loc: "Sangli – Pune, Maharashtra",
+    type: "Celebrations & Event Services",
+    period: "2015 – 2016",
     img: IMG.eventDessert,
     description:
-      "Engineered bespoke celebration setups and catered high-profile corporate events, combining visual showmanship with kitchen precision.",
+      "Supported Belge Cakes in managing in-store and outdoor birthday and anniversary celebrations, coordinating service and event execution while ensuring a smooth and memorable experience for guests.",
   },
-]
+];
 
 export const SERVICES_DATA = [
   {
