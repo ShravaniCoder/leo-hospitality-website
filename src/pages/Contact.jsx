@@ -474,7 +474,7 @@ export function Contact({ go }) {
             </span>
           </>
         }
-        lead="Whether you hold prime commercial real estate, wish to scale a high-volume culinary brand, or simply want to get in touch — our team reviews every enquiry personally."
+        lead="Whether you're launching a new cafe, restructuring a hotel's operations, setting up a cloud kitchen, or looking to streamline your cafeteria management, Leo Hospitality is here to help. Get in touch with our consultancy team to discuss your challenges and explore how we can support your growth."
         image={IMG.heroInterior}
         imageAlt="Atmospheric warm interior of Leo Hospitality venue with ambient chandeliers"
       />

@@ -14,6 +14,8 @@ import {
 import { PageHero, Section } from "../components/PageHero"
 import { CTA } from "./Home"
 
+const FORMSPREE_ENDPOINT = "https://formspree.io/f/myezbrjy"
+
 const REASONS = [
   {
     t: "Real ownership",
@@ -86,7 +88,7 @@ export function Careers({ go }) {
     }
   }
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault()
 
     if (honeypot !== "") {
@@ -106,6 +108,7 @@ export function Careers({ go }) {
     if (form.email && !/\S+@\S+\.\S+/.test(form.email)) {
       newErrors.email = "Please enter a valid email address."
     }
+
     if (
       form.phone &&
       !/^\+?[0-9\s-]{10,14}$/.test(form.phone.replace(/\s+/g, ""))
@@ -124,13 +127,65 @@ export function Careers({ go }) {
       return
     }
 
+    if (
+      !FORMSPREE_ENDPOINT ||
+      FORMSPREE_ENDPOINT === "YOUR_FORMSPREE_ENDPOINT"
+    ) {
+      alert("Please add your Formspree endpoint in Careers.jsx before submitting.")
+      return
+    }
+
     setSubmitting(true)
 
-    setTimeout(() => {
+    try {
+      const formData = new FormData()
+
+      formData.append("name", form.name)
+      formData.append("phone", form.phone)
+      formData.append("email", form.email)
+      formData.append("interest", form.interest)
+      formData.append("message", form.message)
+      formData.append("form_type", "Career Application")
+      formData.append("source", "Careers Page")
+
+      if (cvFile) {
+        formData.append("cv", cvFile, cvFile.name)
+      }
+
+      const response = await fetch(FORMSPREE_ENDPOINT, {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+        },
+        body: formData,
+      })
+
+      let data = {}
+
+      try {
+        data = await response.json()
+      } catch {
+        data = {}
+      }
+
+      if (!response.ok) {
+        throw new Error(
+          data?.errors?.[0]?.message ||
+            "Unable to submit your application. Please try again."
+        )
+      }
+
       setSubmitting(false)
       setSent(true)
       window.scrollTo({ top: 400, behavior: "smooth" })
-    }, 1500)
+    } catch (error) {
+      console.error("Career application submission error:", error)
+      setSubmitting(false)
+      alert(
+        error?.message ||
+          "Something went wrong while submitting your application. Please try again."
+      )
+    }
   }
 
   return (
@@ -383,4 +438,4 @@ export function Careers({ go }) {
     </>
   )
 }
-export default Careers
+export default Careers;

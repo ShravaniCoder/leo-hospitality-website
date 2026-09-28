@@ -402,11 +402,11 @@ export function Ventures({ go }) {
         kicker="Brand Portfolio & Scale"
         title={
           <>
-            Concepts we formulate,{" "}
-            <span className="italic text-forest">operate and scale.</span>
+            Every Project,{" "}
+            <span className="italic text-forest"> A Proof of Our Expertise.</span>
           </>
         }
-        lead="A deliberate hospitality portfolio spanning an ambience-led dine-in café and a franchise-engineered cloud kitchen ecosystem — built on institutional discipline, culinary integrity, and scalable economics."
+        lead="Every project we take on reflects our core philosophy, practical, hands-on consultancy that delivers measurable results. From premium restaurant launches to society clubhouse operations and cloud kitchen setups, our project portfolio showcases the real-world impact of expert hospitality and F&B guidance."
         image={IMG.diningRoom}
       />
 
