@@ -47,10 +47,10 @@ export const VENTURES_DATA = [
   },
   {
     id: "ryvive-roots",
-    tag: "Cloud Kitchen · Franchise-ready",
+    tag: "Cloud Kitchen",
     name: "Ryvive Roots Cloud Kitchen",
     tagline: "Operational delivery-first kitchen ventures built for scale.",
-    copy: "A standardized cloud kitchen operation engineered for consistent food preparation, rapid delivery logistics, and clean franchise expansion playbooks across cities.",
+    copy: "Ryviveroots runs its cloud kitchen operations with Leo Hospitality, a trusted name in hospitality and food & beverage consultancy. This brings together Ryviveroots' brand identity with Leo Hospitality's operational expertise in managing efficient, reliable cloud kitchen setups.",
     points: [
       "Standardised recipes & prep systems",
       "Multi-aggregator delivery operations",

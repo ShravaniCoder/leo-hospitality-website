@@ -44,7 +44,7 @@ export function Services({ go }) {
               className="mt-5 text-3xl leading-tight tracking-[-0.02em] text-[#1a2e22] sm:text-4xl"
               style={{ fontFamily: "var(--font-display)", fontWeight: 400 }}
             >
-              Five disciplines, one standard of care.
+              Ten disciplines, one standard of care.
             </h2>
           </div>
           <p className="max-w-md leading-relaxed text-ink-soft">
