@@ -617,7 +617,7 @@ export function Contact({ go }) {
                       </a>
 
                       <p className="text-xs text-ink-soft">
-                        Mon&ndash;Sat, 10:00 &ndash; 19:00 IST
+                        Tue&ndash;Sun, 10:00 &ndash; 19:00 IST
                       </p>
                     </div>
                   </div>
