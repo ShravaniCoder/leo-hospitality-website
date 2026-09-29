@@ -661,7 +661,7 @@ export function Contact({ go }) {
 
                         <div className="flex justify-between gap-4">
                           <dt className="text-ink-soft">
-                            Monday &ndash; Friday
+                            Tuesday &ndash; Sunday
                           </dt>
 
                           <dd className="font-medium text-ink">
@@ -669,19 +669,11 @@ export function Contact({ go }) {
                           </dd>
                         </div>
 
-                        <div className="flex justify-between gap-4">
-                          <dt className="text-ink-soft">
-                            Saturday
-                          </dt>
-
-                          <dd className="font-medium text-ink">
-                            11:00 &ndash; 17:00 IST
-                          </dd>
-                        </div>
+                      
 
                         <div className="flex justify-between gap-4">
                           <dt className="text-ink-soft">
-                            Sunday
+                            Monday
                           </dt>
 
                           <dd className="italic text-ink-soft/70">

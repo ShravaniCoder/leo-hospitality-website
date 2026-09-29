@@ -164,13 +164,27 @@ export function Footer({ go }) {
           </p>
 
           <p className="flex gap-5">
-            <a href="#" className="transition-colors hover:text-paper">
-              Privacy
-            </a>
+           <a
+  href="#privacy"
+  onClick={(e) => {
+    e.preventDefault()
+    go("privacy")
+  }}
+>
+  Privacy 
+</a>
 
-            <a href="#" className="transition-colors hover:text-paper">
-              Terms
-            </a>
+           <a
+  href="#terms"
+  onClick={(e) => {
+    e.preventDefault()
+    go("terms")
+  }}
+>
+  Terms
+</a>
+
+          
           </p>
         </div>
       </div>

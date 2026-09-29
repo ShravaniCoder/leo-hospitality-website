@@ -7,62 +7,42 @@ import { Reveal, Button, Arrow, IMG, SpotlightCard } from "../lib/ui"
 const TIMELINE = [
   {
     y: "2015",
-
     phase: "The Genesis",
-
     t: "High-Footfall Operations",
-
     d: "Cut our teeth operating fast-paced cafés, bistros, and lounge venues in Mumbai's most competitive dining corridors, mastering front-of-house warmth and kitchen pressure.",
-
     badge: "Operational Foundation",
   },
 
   {
     y: "2018",
-
     phase: "Scalable Systems",
-
     t: "Multi-Outlet Governance",
-
     d: "Expanded operational scope across multiple properties. Engineered centralized supplier contracts, recipe-level COGS formulas, and unit P&L discipline.",
-
     badge: "P&L Frameworks",
   },
 
   {
     y: "2021",
-
     phase: "Delivery Excellence",
-
     t: "Cloud Kitchen Infrastructure",
-
     d: "Pioneered specialized delivery-first culinary hubs with optimized prep timelines, temperature-controlled dispatch, and real-time food waste analytics.",
-
     badge: "Delivery Architecture",
   },
 
   {
-    y: "2023",
-
-    phase: "Proprietary Brands",
-
-    t: "Concept Incubation & Launch",
-
-    d: "Conceptualized, engineered, and launched flagship proprietary ventures including Café Bodhi Tree and lifestyle concept Ryvive Roots.",
-
-    badge: "Brand Incubation",
+    y: "2025",
+    phase: "Institutional Scale",
+    t: "The Management Partnership",
+    d: "Formalized as Leo Hospitality & Ventures LLP — structuring institutional management contracts, joint ventures, and turnkey operational advisory.",
+    badge: "Venture Advisory",
   },
 
   {
-    y: "2025",
-
-    phase: "Institutional Scale",
-
-    t: "The Management Partnership",
-
-    d: "Formalized as Leo Hospitality & Ventures LLP — structuring institutional management contracts, joint ventures, and turnkey operational advisory.",
-
-    badge: "Venture Advisory",
+    y: "2026",
+    phase: "Proprietary Brands",
+    t: "Concept Incubation & Launch",
+    d: "Conceptualized, engineered, and launched flagship proprietary ventures including Café Bodhi Tree and lifestyle concept Ryvive Roots.",
+    badge: "Brand Incubation",
   },
 ]
 

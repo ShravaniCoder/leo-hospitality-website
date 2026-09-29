@@ -16,14 +16,14 @@ const VENTURE_METRICS = {
       sub: "Based on 1,400+ verified ratings",
     },
     {
-      val: "350+",
+      val: "150+",
       label: "Daily Covers",
       sub: "Consistent breakfast to dinner flow",
     },
     {
       val: "100%",
-      label: "Speciality Coffee",
-      sub: "Single-origin estate arabica beans",
+      label: "Signature Recipes",
+      sub: "Made from scratch with carefully sourced ingredients",
     },
     {
       val: "All-Day",
@@ -31,62 +31,62 @@ const VENTURE_METRICS = {
       sub: "Built for community & creative work",
     },
   ],
-  "ryvive-roots": [
-    {
-      val: "< 28 min",
-      label: "Avg. Delivery Time",
-      sub: "Optimized packaging & logistics",
-    },
-    {
-      val: "99.2%",
-      label: "Recipe Consistency",
-      sub: "Standardized ingredient-level prep",
-    },
-    {
-      val: "60 Days",
-      label: "Turnkey Setup",
-      sub: "Site selection to kitchen launch",
-    },
-    {
-      val: "Multi-Brand",
-      label: "Kitchen Output",
-      sub: "Engineered for high-volume scale",
-    },
-  ],
+ "ryvive-roots": [
+  {
+    val: "Consistency",
+    label: "Culinary Standards",
+    sub: "Defined recipes, preparation methods, and quality controls across the operation",
+  },
+  {
+    val: "Efficiency",
+    label: "Delivery Operations",
+    sub: "Integrated workflows from kitchen preparation through packaging and dispatch",
+  },
+  {
+    val: "Scalability",
+    label: "Growth Framework",
+    sub: "An adaptable operating structure designed for expansion and long-term growth",
+  },
+  {
+    val: "Experience",
+    label: "Brand Touchpoints",
+    sub: "A considered approach to food, packaging, presentation, and customer experience",
+  },
+],
 }
 
 const VENTURE_HIGHLIGHTS = {
   "bodhi-tree": [
     {
-      title: "Artisanal Coffee Programme",
-      desc: "Custom-calibrated espresso extractions, single-origin pour-overs, and dairy-alternative beverage formulations.",
+      title: "Culinary & Menu Management",
+      desc: "Curated menus, ingredient quality, recipe consistency, kitchen coordination, and continuous refinement of the dining offering.",
       icon: "M18 8h1a4 4 0 0 1 0 8h-1M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z",
     },
     {
-      title: "Atmospheric Interior Architecture",
-      desc: "Biophilic greenery, curated ambient lighting, warm oak woodwork, and tactile natural stone textures.",
+      title: "Guest Experience & Hospitality",
+      desc: "Warm, attentive service supported by defined hospitality standards, seamless guest journeys, and a strong focus on customer satisfaction.",
       icon: "M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6",
     },
     {
-      title: "Seasonal Scratch Kitchen",
-      desc: "Farm-to-table sourdough toasts, bowls, handcrafted confectionery, and nourishing clean-label recipes.",
+      title: "Ambience & Space Management",
+      desc: "Thoughtfully maintained interiors, lighting, seating, cleanliness, and overall atmosphere designed to support a distinctive dining experience.",
       icon: "M12 3v18m-9-9h18",
     },
   ],
   "ryvive-roots": [
     {
-      title: "Centrally Audited Cloud SOPs",
-      desc: "Digital recipe formulation, automated inventory reordering, and uniform portion controls across all kitchens.",
+      title: "Order & Delivery Operations",
+      desc: "Streamlined order processing, preparation coordination, packaging, and dispatch workflows designed to support a smooth delivery experience.",
       icon: "M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z",
     },
     {
-      title: "Multi-Aggregator Tech Integration",
-      desc: "Unified order dispatch terminals connecting seamlessly to Swiggy, Zomato, and direct delivery fleets.",
+      title: "Quality & Food Safety",
+      desc: "Structured checks across ingredients, preparation, storage, packaging, and handling to uphold high standards of freshness and food quality.",
       icon: "M13 10V3L4 14h7v7l9-11h-7z",
     },
     {
-      title: "Plug-and-Play Franchise Blueprint",
-      desc: "Turnkey equipment layouts, certified vendor supply chains, and staff training modules for 60-day launches.",
+      title: "Packaging & Brand Experience",
+      desc: "Purposeful packaging designed to protect food quality while creating a clean, consistent, and recognisable brand experience at delivery.",
       icon: "M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4",
     },
   ],
@@ -222,8 +222,8 @@ function VentureShowcase({ venture, reverse, go }) {
                   <div className="absolute inset-0 bg-gradient-to-t from-ink/50 via-transparent to-transparent" />
                   <div className="absolute bottom-2 left-2 right-2 text-[10px] font-mono uppercase tracking-wider text-paper font-semibold">
                     {venture.id === "bodhi-tree"
-                      ? "Handcrafted Espresso"
-                      : "Tamper-Evident Packaging"}
+                      ? "Spicy cottage cheese tacos"
+                      : "Packaging"}
                   </div>
                 </div>
 
@@ -366,11 +366,7 @@ function VentureShowcase({ venture, reverse, go }) {
 
               {/* Action Buttons */}
               <div className="mt-8 flex flex-wrap items-center gap-4">
-                {venture.cta && (
-                  <Button onClick={() => go(venture.cta)}>
-                    Franchise &amp; Partner Model <Arrow />
-                  </Button>
-                )}
+                
                 <Button variant="secondary" onClick={() => go("contact")}>
                   Executive Inquiry
                 </Button>

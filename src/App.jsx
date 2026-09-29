@@ -12,6 +12,8 @@ import { Franchise } from "./pages/Franchise"
 import { Careers } from "./pages/Careers"
 import { Vendor } from "./pages/Vendor"
 import { Contact } from "./pages/Contact"
+import Privacy from "./pages/Privacy"
+import Terms from "./pages/Terms"
 
 const VALID_PAGES = [
   "home",
@@ -24,6 +26,8 @@ const VALID_PAGES = [
   "careers",
   "vendor",
   "contact",
+ "privacy",
+ "terms"
 ]
 
 const getPageFromHash = () => {
@@ -118,6 +122,10 @@ export default function App() {
         return <Vendor go={go} />
       case "contact":
         return <Contact go={go} />
+         case "privacy":
+        return <Privacy go={go} />
+       case "terms":
+        return <Terms go={go} />
     }
   }
 

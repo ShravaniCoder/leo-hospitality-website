@@ -5,30 +5,30 @@ export const VENTURES_DATA = [
     id: "bodhi-tree",
     tag: "Café · Restaurant",
     name: "Café Bodhi Tree",
-    tagline: "Ambience-led café and restaurant experience.",
-    copy: "Bodhi Tree Cafe operates with Leo Hospitality's consultancy support, reflecting our commitment to elevating cafe operations through practical, hands-on management.",
+    tagline: "Thoughtfully managed spaces, crafted for memorable dining.",
+    copy: "Café Bodhi Tree is our flagship dine-in venue, a calm and considered space for all-day dining. Operated with the consultancy support of Leo Hospitality, it reflects a hands-on approach to management, where thoughtful details and consistent standards shape every visit.",
     points: [
       "Consistent service & operational standards",
       "Optimized menu and kitchen workflow",
       "Trained staff delivering quality guest experience",
       "Focused on efficiency and profitability",
     ],
-    images: [IMG.bodhiTree, IMG.latteArt],
+    images: [IMG.bodhiTree, IMG.dish],
   
   },
   {
     id: "ryvive-roots",
     tag: "Fresh • Wholesome • Delicious ",
     name: "Ryvive Roots Cloud Kitchen",
-    tagline: "A Healthy Food Concept by Ryvive Roots.",
-    copy: "Leo Hospitality proudly brings  Ryvive Roots  to its cloud kitchen portfolio, a thoughtfully crafted healthy food concept focused on fresh, wholesome and delicious meals. From nourishing salads and protein-rich wraps to fresh juices, smoothies and soups, Ryvive Roots brings together  taste, nutrition and mindful eating  in every offering. ",
+    tagline: "Built around consistency, efficiency, and mindful food operations.",
+    copy: "Ryvive Roots Cloud Kitchen is structured around a disciplined operating model that brings together culinary consistency, efficient kitchen processes, quality control, and seamless delivery. Every touchpoint is thoughtfully managed to ensure that freshness, presentation, and service standards remain consistent from preparation to doorstep.",
     points: [
       "Our promise for hygine and quality standard meal",
       "We focus on taste & nutritious ingredients",
       "Our meal subscriptions designed for hassle-free dining.",
       "Quick doorstep delivery, ensuring your food arrives fresh every time.",
     ],
-    images: [IMG.ryviveRoots, IMG.containers],
+    images: [IMG.ryviveRoots, IMG.pack],
   
     cta: "franchise",
   },
@@ -63,7 +63,7 @@ export const PROJECTS_DATA = [
     loc: "Sangli, Maharashtra",
     type: "Café & Restaurant",
     period: "2017 – July 2020",
-    img: IMG.woodTable,
+    img: IMG.cafe,
     description:
       "Founded and operated our own café, gaining hands-on experience across concept development, kitchen operations, staffing, customer service, marketing, and financial management.",
   },
@@ -80,6 +80,8 @@ export const PROJECTS_DATA = [
   },
 ];
 
+// All icons: 24x24 viewBox, stroke-based (fill="none", stroke="currentColor",
+// strokeWidth 1.75, strokeLinecap "round", strokeLinejoin "round").
 export const SERVICES_DATA = [
   {
     n: "01",
@@ -92,8 +94,9 @@ export const SERVICES_DATA = [
       "Vendor & inventory management",
       "Guest experience & service quality",
     ],
+    // Clipboard with checkmark / operations
     svgIcon:
-      "M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2M9 5a2 2 0 0 0 2 2h2a2 2 0 0 0 2-2M9 5a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2m-6 9h4m-4 4h6",
+      "M9 2h6a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1H9a1 1 0 0 1-1-1V3a1 1 0 0 1 1-1zM16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2m1 10 2 2 4-4",
   },
 
   {
@@ -107,7 +110,9 @@ export const SERVICES_DATA = [
       "Hygiene & quality standards",
       "Resident experience & feedback",
     ],
-    svgIcon: "M4 5h16v14H4V5zm3 3h10M7 12h4m2 0h4M7 16h10",
+    // Coffee cup / cafeteria
+    svgIcon:
+      "M6 2v2M10 2v2M14 2v2M16 8a1 1 0 0 1 1 1v8a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4V9a1 1 0 0 1 1-1h12zm1 0h1a3 3 0 0 1 0 8h-1",
   },
 
   {
@@ -121,7 +126,9 @@ export const SERVICES_DATA = [
       "Beverage & coffee programmes",
       "Food quality & service direction",
     ],
-    svgIcon: "M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6",
+    // Fork & knife / dining
+    svgIcon:
+      "M3 2v7a2 2 0 0 0 2 2h4a2 2 0 0 0 2-2V2M7 2v20M21 15V2a5 5 0 0 0-5 5v6a2 2 0 0 0 2 2h3zm0 0v7",
   },
 
   {
@@ -135,7 +142,9 @@ export const SERVICES_DATA = [
       "SOP implementation & compliance",
       "Performance development & coaching",
     ],
-    svgIcon: "M12 22V12m0 0 4-4m-4 4-4-4M6 12a6 6 0 1 1 12 0 6 6 0 0 1-12 0z",
+    // Graduation cap / training
+    svgIcon:
+      "M21.42 10.92a1 1 0 0 0-.02-1.84L12.83 5.18a2 2 0 0 0-1.66 0L2.6 9.08a1 1 0 0 0 0 1.83l8.57 3.91a2 2 0 0 0 1.66 0zM22 10v6M6 12.5V16a6 3 0 0 0 12 0v-3.5",
   },
 
   {
@@ -149,7 +158,9 @@ export const SERVICES_DATA = [
       "Multi-brand kitchen operations",
       "Performance & rating management",
     ],
-    svgIcon: "M4 4h16v16H4V4zm4 4h8v8H8V8z",
+    // Chef hat / kitchen
+    svgIcon:
+      "M17 21a1 1 0 0 0 1-1v-5.35c0-.46.32-.84.73-1.04a4 4 0 0 0-2.13-7.59 5 5 0 0 0-9.19 0 4 4 0 0 0-2.13 7.59c.41.2.72.58.72 1.04V20a1 1 0 0 0 1 1zM6 17h12",
   },
 
   {
@@ -163,7 +174,9 @@ export const SERVICES_DATA = [
       "Beverage & coffee programmes",
       "Menu presentation & food styling",
     ],
-    svgIcon: "M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6",
+    // Document / menu
+    svgIcon:
+      "M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7zM14 2v4a2 2 0 0 0 2 2h4M10 9H8M16 13H8M16 17H8",
   },
 
   {
@@ -177,8 +190,9 @@ export const SERVICES_DATA = [
       "Service quality monitoring",
       "Corrective action & improvement",
     ],
+    // Shield with check / quality
     svgIcon:
-      "M12 3l8 4v5c0 5-3.5 8.5-8 10-4.5-1.5-8-5-8-10V7l8-4zm-3 9 2 2 4-4",
+      "M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1zM9 12l2 2 4-4",
   },
 
   {
@@ -192,7 +206,9 @@ export const SERVICES_DATA = [
       "Waste reduction systems",
       "P&L analysis & performance tracking",
     ],
-    svgIcon: "M12 1v22M17 5H9a3 3 0 0 0 0 6h6a3 3 0 0 1 0 6H6",
+    // Indian Rupee ₹ (fixed)
+    svgIcon:
+      "M6 3h12M6 8h12M6 13l8.5 8M6 13h3M9 13c6.67 0 6.67-10 0-10",
   },
 
   {
@@ -206,8 +222,9 @@ export const SERVICES_DATA = [
       "Customer satisfaction tracking",
       "Experience improvement programmes",
     ],
+    // Smiley face / guest satisfaction
     svgIcon:
-      "M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2m8-10a4 4 0 1 0 0-8 4 4 0 0 0 0 8z",
+      "M22 12a10 10 0 1 1-20 0 10 10 0 0 1 20 0zM8 14s1.5 2 4 2 4-2 4-2M9 9h.01M15 9h.01",
   },
 
   {
@@ -221,7 +238,9 @@ export const SERVICES_DATA = [
       "Stock optimisation & replenishment",
       "Supplier performance management",
     ],
-    svgIcon: "M3 7h18M5 7l1-4h12l1 4M5 7v12h14V7M9 11h6",
+    // Package / inventory
+    svgIcon:
+      "M11 21.73a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73zM12 22V12M3.29 7 12 12l8.71-5M7.5 4.27l9 5.15",
   },
 ];
 

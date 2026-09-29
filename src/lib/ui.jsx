@@ -32,12 +32,18 @@ import cost from "../assets/cost.png"
 import customer from "../assets/customer.png"
 import vendor from "../assets/vendor.png"
 import drinks from "../assets/drinks.png"
+import dish from "../assets/Dish.png"
+import pack from "../assets/Pack.png"
+import cafe from "../assets/cafe.png"
 
 
 gsap.registerPlugin(ScrollTrigger)
 
 /* ---------- Imagery (bundled locally so images load same-origin) ---------- */
 export const IMG = {
+  cafe,
+  pack,
+  dish,
   drinks,
   vendor,
   customer,
