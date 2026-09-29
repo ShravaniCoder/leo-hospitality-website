@@ -127,7 +127,7 @@ const VALUES = [
 const STATS = [
   { val: "10+", label: "Years in Mumbai F&B", sub: "Operational track record" },
 
-  { val: "5", label: "Core Disciplines", sub: "End-to-end execution" },
+  { val: "10", label: "Core Disciplines", sub: "End-to-end execution" },
 
   { val: "90–120", label: "Days Pre-Opening", sub: "Rapid turnkey deployment" },
 

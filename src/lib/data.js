@@ -265,5 +265,5 @@ export const GALLERY_PHOTOS_DATA = [
 export const STATS_DATA = [
   { value: 10, label: "Years of Experience", suffix: "+" },
   { value: 15, label: "Ventures Managed", suffix: "+" },
-  { value: 5, label: "Cities & Locations", suffix: "+" },
+  { value: 4, label: "Cities & Locations", suffix: "+" },
 ]
