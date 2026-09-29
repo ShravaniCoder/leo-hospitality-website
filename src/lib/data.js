@@ -52,10 +52,10 @@ export const VENTURES_DATA = [
     tagline: "Operational delivery-first kitchen ventures built for scale.",
     copy: "Ryviveroots runs its cloud kitchen operations with Leo Hospitality, a trusted name in hospitality and food & beverage consultancy. This brings together Ryviveroots' brand identity with Leo Hospitality's operational expertise in managing efficient, reliable cloud kitchen setups.",
     points: [
-      "Standardised recipes & prep systems",
-      "Multi-aggregator delivery operations",
-      "Turnkey franchise & partnership model",
-      "Unit economics designed for scale",
+      "Our promise for hygine and quality standard meal",
+      "We focus on taste & nutritious ingredients",
+      "Our meal subscriptions designed for hassle-free dining.",
+      "Quick doorstep delivery, ensuring your food arrives fresh every time.",
     ],
     images: [IMG.ryviveRoots, IMG.containers],
     floatingAsset: [
