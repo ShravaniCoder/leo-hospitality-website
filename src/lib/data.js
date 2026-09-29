@@ -6,44 +6,15 @@ export const VENTURES_DATA = [
     tag: "Café · Restaurant",
     name: "Café Bodhi Tree",
     tagline: "Ambience-led café and restaurant experience.",
-    copy: "A premium all-day dining space designed around warm, welcoming aesthetics and detail-oriented operational standards. Featuring speciality coffee and ingredient-led menus that cultivate a loyal local community.",
+    copy: "Bodhi Tree Cafe operates with Leo Hospitality's consultancy support, reflecting our commitment to elevating cafe operations through practical, hands-on management.",
     points: [
-      "All-day café & light restaurant format",
-      "Speciality coffee programme",
-      "Seasonal, ingredient-led menu",
-      "Designed for community & regulars",
+      "Consistent service & operational standards",
+      "Optimized menu and kitchen workflow",
+      "Trained staff delivering quality guest experience",
+      "Focused on efficiency and profitability",
     ],
     images: [IMG.bodhiTree, IMG.latteArt],
-    floatingAsset: [
-      {
-        type: "svg",
-        // Leaf motif SVG path
-        svgPath:
-          "M12 2C11.5 2 6 6 6 12C6 15.3 8.7 18 12 18C15.3 18 18 15.3 18 12C18 6 12.5 2 12 2ZM12 16C9.8 16 8 14.2 8 12C8 9.5 11 6.2 12 5.2C13 6.2 16 9.5 16 12C16 14.2 14.2 16 12 16Z",
-        style: {
-          top: "15%",
-          right: "12%",
-          width: "90px",
-          height: "90px",
-          opacity: 0.85,
-          color: "var(--color-bronze)",
-        },
-      },
-      {
-        type: "svg",
-        // Coffee cup outline SVG path
-        svgPath:
-          "M2 5v8c0 2.2 1.8 4 4 4h6c2.2 0 4-1.8 4-4V5H2zm14 3h1.5c1.4 0 2.5-1.1 2.5-2.5S18.9 3 17.5 3H16v5zm-14 11h16v2H2v-2z",
-        style: {
-          bottom: "25%",
-          left: "8%",
-          width: "80px",
-          height: "80px",
-          opacity: 0.7,
-          color: "var(--color-forest)",
-        },
-      },
-    ],
+  
   },
   {
     id: "ryvive-roots",
@@ -58,36 +29,7 @@ export const VENTURES_DATA = [
       "Quick doorstep delivery, ensuring your food arrives fresh every time.",
     ],
     images: [IMG.ryviveRoots, IMG.containers],
-    floatingAsset: [
-      {
-        type: "svg",
-        // Plate and fork/spoon chef motif SVG path
-        svgPath:
-          "M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10 10-4.5 10-10S17.5 2 12 2zm0 18c-4.4 0-8-3.6-8-8s3.6-8 8-8 8 3.6 8 8-3.6 8-8 8z",
-        style: {
-          top: "20%",
-          left: "10%",
-          width: "100px",
-          height: "100px",
-          opacity: 0.7,
-          color: "var(--color-bronze)",
-        },
-      },
-      {
-        type: "svg",
-        // Chef hat silhouette path
-        svgPath:
-          "M12 3a6 6 0 0 0-5.9 5 3 3 0 0 0-2.1 2.8c0 1.2.7 2.2 1.7 2.7A2 2 0 0 0 7 17h10a2 2 0 0 0 1.3-3.5c1-.5 1.7-1.5 1.7-2.7a3 3 0 0 0-2.1-2.8A6 6 0 0 0 12 3zm0 2c2.2 0 4 1.8 4 4H8c0-2.2 1.8-4 4-4z",
-        style: {
-          bottom: "18%",
-          right: "10%",
-          width: "90px",
-          height: "90px",
-          opacity: 0.8,
-          color: "var(--color-forest)",
-        },
-      },
-    ],
+  
     cta: "franchise",
   },
 ]

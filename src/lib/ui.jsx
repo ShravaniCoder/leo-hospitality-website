@@ -22,7 +22,7 @@ import chefSink from "../assets/chefSink.jpg"
 import eventDessert from "../assets/cakess.png"
 import cupcakes from "../assets/cupcakes.jpg"
 import Home from "../assets/HA.png";
-import ryviveRoots from "../assets/ryvive.svg"
+import ryviveRoots from "../assets/RyviveR.png"
 import society from "../assets/society.png"
 import foodB from "../assets/food.png"
 import staff from "../assets/staff.png"
