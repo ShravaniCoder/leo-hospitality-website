@@ -1008,7 +1008,7 @@ export function Home({ go }) {
                 className="text-4xl leading-[1.12] tracking-[-0.025em] sm:text-5xl lg:text-[52px] text-ink"
                 style={{ fontFamily: "var(--font-display)", fontWeight: 400 }}
               >
-                Five disciplines, <br className="hidden sm:inline" />
+                Ten disciplines, <br className="hidden sm:inline" />
                 <span className="italic text-forest">one standard</span> of
                 care.
               </h2>
