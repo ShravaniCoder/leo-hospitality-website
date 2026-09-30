@@ -55,42 +55,53 @@ const VENTURE_METRICS = {
 ],
 }
 
+// Icons: 24x24 viewBox, stroke-based
+// <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+//      strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round">
+//   <path d={icon} />
+// </svg>
 const VENTURE_HIGHLIGHTS = {
   "bodhi-tree": [
     {
       title: "Culinary & Menu Management",
       desc: "Curated menus, ingredient quality, recipe consistency, kitchen coordination, and continuous refinement of the dining offering.",
-      icon: "M18 8h1a4 4 0 0 1 0 8h-1M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z",
+      // Chef hat
+      icon: "M17 21a1 1 0 0 0 1-1v-5.35c0-.46.32-.84.73-1.04a4 4 0 0 0-2.13-7.59 5 5 0 0 0-9.19 0 4 4 0 0 0-2.13 7.59c.41.2.72.58.72 1.04V20a1 1 0 0 0 1 1zM6 17h12",
     },
     {
       title: "Guest Experience & Hospitality",
       desc: "Warm, attentive service supported by defined hospitality standards, seamless guest journeys, and a strong focus on customer satisfaction.",
-      icon: "M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6",
+      // Service bell (concierge)
+      icon: "M3 20a1 1 0 0 1-1-1v-1a1 1 0 0 1 1-1h18a1 1 0 0 1 1 1v1a1 1 0 0 1-1 1zM20 16a8 8 0 1 0-16 0M12 4v4M10 4h4",
     },
     {
       title: "Ambience & Space Management",
       desc: "Thoughtfully maintained interiors, lighting, seating, cleanliness, and overall atmosphere designed to support a distinctive dining experience.",
-      icon: "M12 3v18m-9-9h18",
+      // Pendant lamp (lighting & atmosphere)
+      icon: "M12 2v5M6 7h12l4 9H2zM9.17 16a3 3 0 1 0 5.66 0",
     },
   ],
   "ryvive-roots": [
     {
       title: "Order & Delivery Operations",
       desc: "Streamlined order processing, preparation coordination, packaging, and dispatch workflows designed to support a smooth delivery experience.",
-      icon: "M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z",
+      // Delivery truck
+      icon: "M14 18V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v11a1 1 0 0 0 1 1h2M9 18h5M19 18h2a1 1 0 0 0 1-1v-3.65a1 1 0 0 0-.22-.62l-3.48-4.35A1 1 0 0 0 17.52 8H14M9 18a2 2 0 1 1-4 0 2 2 0 0 1 4 0zM19 18a2 2 0 1 1-4 0 2 2 0 0 1 4 0z",
     },
     {
       title: "Quality & Food Safety",
       desc: "Structured checks across ingredients, preparation, storage, packaging, and handling to uphold high standards of freshness and food quality.",
-      icon: "M13 10V3L4 14h7v7l9-11h-7z",
+      // Shield with check
+      icon: "M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1zM9 12l2 2 4-4",
     },
     {
       title: "Packaging & Brand Experience",
       desc: "Purposeful packaging designed to protect food quality while creating a clean, consistent, and recognisable brand experience at delivery.",
-      icon: "M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4",
+      // Package box
+      icon: "M11 21.73a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73zM12 22V12M3.29 7 12 12l8.71-5M7.5 4.27l9 5.15",
     },
   ],
-}
+};
 
 const FUTURE_CONCEPTS = [
   {
