@@ -14,14 +14,13 @@ export const VENTURES_DATA = [
       "Focused on efficiency and profitability",
     ],
     images: [IMG.bodhiTree, IMG.dish],
-  
   },
   {
     id: "ryvive-roots",
     tag: "Fresh • Wholesome • Delicious ",
     name: "Ryvive Roots Cloud Kitchen",
-    tagline: "Built around consistency, efficiency, and mindful food operations.",
-    copy: "Ryvive Roots Cloud Kitchen is structured around a disciplined operating model that brings together culinary consistency, efficient kitchen processes, quality control, and seamless delivery. Every touchpoint is thoughtfully managed to ensure that freshness, presentation, and service standards remain consistent from preparation to doorstep.",
+    tagline: "A Healthy Food Concept by Ryvive Roots",
+    copy: "Leo Hospitality proudly brings  Ryvive Roots  to its cloud kitchen portfolio — a thoughtfully crafted healthy food concept focused on fresh, wholesome and delicious meals. From nourishing salads and protein-rich wraps to fresh juices, smoothies and soups, Ryvive Roots brings together  taste, nutrition and mindful eating  in every offering. ",
     points: [
       "Our promise for hygine and quality standard meal",
       "We focus on taste & nutritious ingredients",
@@ -29,10 +28,10 @@ export const VENTURES_DATA = [
       "Quick doorstep delivery, ensuring your food arrives fresh every time.",
     ],
     images: [IMG.ryviveRoots, IMG.pack],
-  
+
     cta: "franchise",
   },
-]
+];
 
 export const PROJECTS_DATA = [
   {
