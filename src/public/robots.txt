@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://leohospitality.in/sitemap.xml
